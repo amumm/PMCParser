@@ -1,0 +1,9 @@
+c:\users\mumm9\source\repos\ArticleManager\ArticleManager\bin\Debug\ArticleManager.exe.config
+c:\users\mumm9\source\repos\ArticleManager\ArticleManager\bin\Debug\ArticleManager.exe
+c:\users\mumm9\source\repos\ArticleManager\ArticleManager\bin\Debug\ArticleManager.pdb
+c:\users\mumm9\source\repos\ArticleManager\ArticleManager\obj\Debug\ArticleManager.csprojResolveAssemblyReference.cache
+c:\users\mumm9\source\repos\ArticleManager\ArticleManager\obj\Debug\ArticleManager.csproj.CoreCompileInputs.cache
+c:\users\mumm9\source\repos\ArticleManager\ArticleManager\obj\Debug\ArticleManager.exe
+c:\users\mumm9\source\repos\ArticleManager\ArticleManager\obj\Debug\ArticleManager.pdb
+c:\users\mumm9\source\repos\ArticleManager\ArticleManager\bin\Debug\itextsharp.dll
+c:\users\mumm9\source\repos\ArticleManager\ArticleManager\bin\Debug\itextsharp.xml
