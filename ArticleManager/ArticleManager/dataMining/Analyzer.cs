@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Data;
 
 namespace ArticleAnalyzer
 {
@@ -12,8 +13,11 @@ namespace ArticleAnalyzer
 
         static void Main(string[] args)
         {
+            DBConnection dbc = SetUpDBConnection();
             //AnalyzeSingleArticle();
-            AnalyzeAllArticles();
+            //AnalyzeAllArticles();
+            if (dbc.IsConnected()) Console.WriteLine("Conncted Successfully");
+            dbc.Close();
         }
 
         public static void MoveFiles()
@@ -86,6 +90,12 @@ namespace ArticleAnalyzer
             }
 
             Console.WriteLine("\n" + (i - 1));
+        }
+
+        public static DBConnection SetUpDBConnection()
+        {
+            DBConnection dbc = new DBConnection("mysql.cs.iastate.edu", "db490amumm", "dbu490amumm", "zjsb8J9H4ajW");
+            return dbc;
         }
     }
 }
