@@ -12,23 +12,36 @@ namespace ArticleAnalyzer
 
         static void Main(string[] args)
         {
-            //FileInfo file = new FileInfo("C://Users//mumm9//Documents//ISU//Fall2017//COMS 490//Wget attempt//html_download//PMC_joe");
-            //String stringFile;
-            //StreamReader reader;
-            //ArticleParser parser;
+            //AnalyzeSingleArticle();
+            AnalyzeAllArticles();
+        }
 
-            //reader = file.OpenText();
-            //stringFile = reader.ReadToEnd();
-            //parser = new ArticleParser(stringFile);
-            //String result = parser.DefineSections();
-            //if (result != null && result != "" && result != " ")
-            //{
-            //    Console.WriteLine(file.FullName + result);
+        public static void MoveFiles()
+        {
+            Manager manage = new Manager("C://Users//mumm9//Documents//ISU//Fall2017//COMS 490//pdfArticles//oa_pdf");
+            manage.RenameAndRelocate();
+        }
 
-            //}
-            //Manager manage = new Manager("C://Users//mumm9//Documents//ISU//Fall2017//COMS 490//pdfArticles//oa_pdf");
-            //manage.renameAndRelocate();
+        public static void AnalyzeSingleArticle()
+        {
+            FileInfo file = new FileInfo("C://Users//mumm9//Documents//ISU//Fall2017//COMS 490//Wget attempt//html_download//PMC_joe");
+            String stringFile;
+            StreamReader reader;
+            ArticleParser parser;
 
+            reader = file.OpenText();
+            stringFile = reader.ReadToEnd();
+            parser = new ArticleParser(stringFile);
+            String result = parser.DefineSections();
+            if (result != null && result != "" && result != " ")
+            {
+                Console.WriteLine(file.FullName + result);
+
+            }
+        }
+
+        public static void AnalyzeAllArticles()
+        {
             String referenceKeyWordPath = "C://Users//mumm9//Documents//ISU//Fall2017//COMS 490//Wget attempt//referenceKeyWords.txt";
             String validKeyWordPath = "C://Users//mumm9//Documents//ISU//Fall2017//COMS 490//Wget attempt//validKeyWords.txt";
 
@@ -53,24 +66,26 @@ namespace ArticleAnalyzer
                     String result = parser.DefineSections();
                     if (result != null && result != "" && result != " ")
                     {
-                        Console.WriteLine(i + ") " + file.FullName + result);
+                        if (!filter.FindKeyWords(file.FullName, result, i))
+                        {
+                            Console.WriteLine(i + ") Failed:\n\tReason: Neither Methods nor Results Contain Keywords\n\tFile: " + file.FullName);
+
+                        }
 
                     }
                     else
-                        Console.WriteLine(i + ") No Methods or Results");
+                        Console.WriteLine(i + ") Failed:\n\tReason: No Methods or Result\n\tFile: " + file.FullName);
                 }
                 else
                 {
-                    Console.WriteLine(i + ") Failed Filter");
+                    Console.WriteLine(i + ") Failed:\n\tReason: Failed Filter\n\tFile: " + file.FullName);
                 }
                 i++;
 
                 reader.Close();
             }
 
-            Console.WriteLine(i);
-
+            Console.WriteLine("\n" + (i - 1));
         }
-
     }
 }

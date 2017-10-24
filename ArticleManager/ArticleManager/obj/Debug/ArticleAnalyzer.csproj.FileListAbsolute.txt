@@ -7,3 +7,12 @@ C:\Users\mumm9\source\repos\ArticleManager\ArticleManager\obj\Debug\ArticleAnaly
 C:\Users\mumm9\source\repos\ArticleManager\ArticleManager\obj\Debug\ArticleAnalyzer.csproj.CoreCompileInputs.cache
 C:\Users\mumm9\source\repos\ArticleManager\ArticleManager\obj\Debug\ArticleAnalyzer.exe
 C:\Users\mumm9\source\repos\ArticleManager\ArticleManager\obj\Debug\ArticleAnalyzer.pdb
+C:\Users\mumm9\Documents\ISU\Fall2017\COMS 490\repos\PMCParser\ArticleManager\ArticleManager\bin\Debug\ArticleAnalyzer.exe.config
+C:\Users\mumm9\Documents\ISU\Fall2017\COMS 490\repos\PMCParser\ArticleManager\ArticleManager\bin\Debug\ArticleAnalyzer.exe
+C:\Users\mumm9\Documents\ISU\Fall2017\COMS 490\repos\PMCParser\ArticleManager\ArticleManager\bin\Debug\ArticleAnalyzer.pdb
+C:\Users\mumm9\Documents\ISU\Fall2017\COMS 490\repos\PMCParser\ArticleManager\ArticleManager\bin\Debug\itextsharp.dll
+C:\Users\mumm9\Documents\ISU\Fall2017\COMS 490\repos\PMCParser\ArticleManager\ArticleManager\bin\Debug\itextsharp.xml
+C:\Users\mumm9\Documents\ISU\Fall2017\COMS 490\repos\PMCParser\ArticleManager\ArticleManager\obj\Debug\ArticleAnalyzer.csprojResolveAssemblyReference.cache
+C:\Users\mumm9\Documents\ISU\Fall2017\COMS 490\repos\PMCParser\ArticleManager\ArticleManager\obj\Debug\ArticleAnalyzer.csproj.CoreCompileInputs.cache
+C:\Users\mumm9\Documents\ISU\Fall2017\COMS 490\repos\PMCParser\ArticleManager\ArticleManager\obj\Debug\ArticleAnalyzer.exe
+C:\Users\mumm9\Documents\ISU\Fall2017\COMS 490\repos\PMCParser\ArticleManager\ArticleManager\obj\Debug\ArticleAnalyzer.pdb

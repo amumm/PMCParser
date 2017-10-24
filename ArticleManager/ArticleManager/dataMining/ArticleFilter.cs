@@ -40,6 +40,22 @@ namespace ArticleAnalyzer
 
         }
 
+        public bool FindKeyWords(String fileName, String article, int i)
+        {
+            bool hasKeyword = false;
+            foreach (String word in validKeyWords)
+            {
+                if (article.Contains(word))
+                {
+                    if (!hasKeyword)
+                        Console.WriteLine(i + ") Success\n\tFile: " + fileName + "\n\tKeywords:");
+                    Console.WriteLine("\t\t" + word);
+                    hasKeyword = true;
+                }
+            }
+            return hasKeyword;
+        }
+
         public bool PassesAllFilters(String article)
         {
             if (IsReferenceArticle(article))
