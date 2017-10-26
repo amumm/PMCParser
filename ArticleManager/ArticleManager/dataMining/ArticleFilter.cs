@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MySql.Data.MySqlClient;
+using System;
 using System.Collections;
 using System.IO;
 
@@ -40,16 +41,22 @@ namespace ArticleAnalyzer
 
         }
 
-        public bool FindKeyWords(String fileName, String article, int i)
+        public bool FindKeyWords(String fileName, String article, int i, MySqlConnection connection)
         {
             bool hasKeyword = false;
             foreach (String word in validKeyWords)
             {
-                if (article.Contains(word))
+                
+                if (article.Contains(word.Trim()) && word.Trim() != "" && word != null)
                 {
                     if (!hasKeyword)
                         Console.WriteLine(i + ") Success\n\tFile: " + fileName + "\n\tKeywords:");
                     Console.WriteLine("\t\t" + word);
+                    MySqlCommand cmd = connection.CreateCommand();
+                    cmd.CommandText = "INSERT INTO keywords(keyword, fileName) VALUES(?keyword, ?fileName)";
+                    cmd.Parameters.AddWithValue("?keyword", word);
+                    cmd.Parameters.AddWithValue("?fileName", fileName);
+                    cmd.ExecuteNonQuery();
                     hasKeyword = true;
                 }
             }

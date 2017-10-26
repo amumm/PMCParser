@@ -8,43 +8,49 @@ namespace ArticleAnalyzer
 {
     class Manager
     {
-        private DirectoryInfo parentDirectory;
 
-        public Manager(String path)
+        static void Main(string[] args)
         {
-            parentDirectory = new DirectoryInfo(path);
+            Manager manager = new Manager("", "");
+            manager.RenameAndRelocate();
+        }
+
+        private DirectoryInfo ParentDirectory;
+
+        private String ResultPath;
+
+        public Manager(String path, String resultPath)
+        {
+            ParentDirectory = new DirectoryInfo(path);
+            ResultPath = resultPath;
         }
 
         public void RenameAndRelocate()
         {
-            DirectoryInfo[] set1, set2;
+            DirectoryInfo[] set1, set2, set3;
             FileInfo[] files;
-            String fileName, newName;
-            int newNameStartPoint;
+            String newName;
 
+            set1 = ParentDirectory.GetDirectories();
 
-            var result = "C://Users//mumm9//Documents//ISU//Fall2017//COMS 490//pdfArticles//result//";
-
-
-            set1 = parentDirectory.GetDirectories();
-
-            foreach (var directory in set1)
+            foreach (var subjectDirectory in set1) //all subject folders
             {
-                set2 = directory.GetDirectories();
+                set2 = subjectDirectory.GetDirectories();
+                newName = subjectDirectory.Name.Substring(0, 6) + "_vol_bl";
 
-                foreach (var fileDir in set2)
+                foreach (var t1Directory in set2) // all folders in subject folder
                 {
-                    files = fileDir.GetFiles();
+                    set3 = t1Directory.GetDirectories();
 
-                    foreach (var file in files)
+                    foreach (var t1FastDirectory in set3) // all folders in T1 folder
                     {
-                        fileName = file.ToString();
-                        newNameStartPoint = fileName.IndexOf("PMC");
-                        newName = fileName.Substring(newNameStartPoint);
-                        var doesFileExist = new FileInfo(result + newName);
-                        if (doesFileExist == null)
+                        files = t1FastDirectory.GetFiles();
+
+                        foreach (var file in files) // all files in T1_fast folder
                         {
-                            file.CopyTo(result + newName);
+                            if (file.Name.Contains("T1_brain_pve_1")){
+                                file.CopyTo(ResultPath + newName);
+                            }
                         }
                     }
                 }

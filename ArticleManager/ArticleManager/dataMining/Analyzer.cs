@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Data;
+using MySql.Data.MySqlClient;
 
 namespace ArticleAnalyzer
 {
@@ -14,9 +15,20 @@ namespace ArticleAnalyzer
         static void Main(string[] args)
         {
             DBConnection dbc = SetUpDBConnection();
-            //AnalyzeSingleArticle();
-            //AnalyzeAllArticles();
             if (dbc.IsConnected()) Console.WriteLine("Conncted Successfully");
+            //AnalyzeSingleArticle();
+            AnalyzeAllArticles(dbc);
+
+            string query = "SELECT keyword, fileName FROM keywords";
+            var cmd = new MySqlCommand(query, dbc.Connection);
+            var reader = cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                string keyword = reader.GetString(0);
+                string filename = reader.GetString(1);
+                Console.WriteLine("Keyword: " + keyword + ", File: " + filename);
+            }
+
             dbc.Close();
         }
 
@@ -39,12 +51,12 @@ namespace ArticleAnalyzer
             String result = parser.DefineSections();
             if (result != null && result != "" && result != " ")
             {
-                Console.WriteLine(file.FullName + result);
+                Console.WriteLine(file.Name + result);
 
             }
         }
 
-        public static void AnalyzeAllArticles()
+        public static void AnalyzeAllArticles(DBConnection dbc)
         {
             String referenceKeyWordPath = "C://Users//mumm9//Documents//ISU//Fall2017//COMS 490//Wget attempt//referenceKeyWords.txt";
             String validKeyWordPath = "C://Users//mumm9//Documents//ISU//Fall2017//COMS 490//Wget attempt//validKeyWords.txt";
@@ -70,19 +82,19 @@ namespace ArticleAnalyzer
                     String result = parser.DefineSections();
                     if (result != null && result != "" && result != " ")
                     {
-                        if (!filter.FindKeyWords(file.FullName, result, i))
+                        if (!filter.FindKeyWords(file.Name, result, i, dbc.Connection))
                         {
-                            Console.WriteLine(i + ") Failed:\n\tReason: Neither Methods nor Results Contain Keywords\n\tFile: " + file.FullName);
+                            Console.WriteLine(i + ") Failed:\n\tReason: Neither Methods nor Results Contain Keywords\n\tFile: " + file.Name);
 
                         }
 
                     }
                     else
-                        Console.WriteLine(i + ") Failed:\n\tReason: No Methods or Result\n\tFile: " + file.FullName);
+                        Console.WriteLine(i + ") Failed:\n\tReason: No Methods or Result\n\tFile: " + file.Name);
                 }
                 else
                 {
-                    Console.WriteLine(i + ") Failed:\n\tReason: Failed Filter\n\tFile: " + file.FullName);
+                    Console.WriteLine(i + ") Failed:\n\tReason: Failed Filter\n\tFile: " + file.Name);
                 }
                 i++;
 
