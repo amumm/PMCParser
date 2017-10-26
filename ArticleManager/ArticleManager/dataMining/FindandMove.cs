@@ -9,12 +9,6 @@ namespace ArticleAnalyzer
     class Manager
     {
 
-        static void Main(string[] args)
-        {
-            Manager manager = new Manager("", "");
-            manager.RenameAndRelocate();
-        }
-
         private DirectoryInfo ParentDirectory;
 
         private String ResultPath;
@@ -36,7 +30,7 @@ namespace ArticleAnalyzer
             foreach (var subjectDirectory in set1) //all subject folders
             {
                 set2 = subjectDirectory.GetDirectories();
-                newName = subjectDirectory.Name.Substring(0, 6) + "_vol_bl";
+                newName = subjectDirectory.Name.Substring(0, 7) + "_vol_bl.nii.gz";
 
                 foreach (var t1Directory in set2) // all folders in subject folder
                 {

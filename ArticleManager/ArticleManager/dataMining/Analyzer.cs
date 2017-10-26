@@ -14,28 +14,32 @@ namespace ArticleAnalyzer
 
         static void Main(string[] args)
         {
-            DBConnection dbc = SetUpDBConnection();
-            if (dbc.IsConnected()) Console.WriteLine("Conncted Successfully");
-            //AnalyzeSingleArticle();
-            AnalyzeAllArticles(dbc);
+            MoveFiles();
 
-            string query = "SELECT keyword, fileName FROM keywords";
-            var cmd = new MySqlCommand(query, dbc.Connection);
-            var reader = cmd.ExecuteReader();
-            while (reader.Read())
-            {
-                string keyword = reader.GetString(0);
-                string filename = reader.GetString(1);
-                Console.WriteLine("Keyword: " + keyword + ", File: " + filename);
-            }
+            //DBConnection dbc = SetUpDBConnection();
+            //if (dbc.IsConnected()) Console.WriteLine("Conncted Successfully");
+            ////AnalyzeSingleArticle();
+            //AnalyzeAllArticles(dbc);
 
-            dbc.Close();
+            //string query = "SELECT keyword, fileName FROM keywords";
+            //var cmd = new MySqlCommand(query, dbc.Connection);
+            //var reader = cmd.ExecuteReader();
+            //while (reader.Read())
+            //{
+            //    string keyword = reader.GetString(0);
+            //    string filename = reader.GetString(1);
+            //    Console.WriteLine("Keyword: " + keyword + ", File: " + filename);
+            //}
+
+            //dbc.Close();
         }
 
         public static void MoveFiles()
         {
-            Manager manage = new Manager("C://Users//mumm9//Documents//ISU//Fall2017//COMS 490//pdfArticles//oa_pdf");
-            manage.RenameAndRelocate();
+            Manager manager = new Manager(
+                "C://Users//mumm9//Documents//ISU//Fall2017//COMS 490//UK_test-sort//Subject_folders",
+                "C://Users//mumm9//Documents//ISU//Fall2017//COMS 490//UK_test-sort//result//");
+            manager.RenameAndRelocate();
         }
 
         public static void AnalyzeSingleArticle()
