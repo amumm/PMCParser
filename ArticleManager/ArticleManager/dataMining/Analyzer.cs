@@ -14,31 +14,79 @@ namespace ArticleAnalyzer
 
         static void Main(string[] args)
         {
-            MoveFiles();
+            //MoveFiles();
+            //DirectoryInfo source = new DirectoryInfo("D://UKBiobank//Neuroimages//result");
+            //DirectoryInfo result = new DirectoryInfo("D://UKBiobank//Neuroimages//nifty");
 
-            //DBConnection dbc = SetUpDBConnection();
-            //if (dbc.IsConnected()) Console.WriteLine("Conncted Successfully");
-            ////AnalyzeSingleArticle();
-            //AnalyzeAllArticles(dbc);
+            //DirectoryInfo[] sources = source.GetDirectories();
+            //FileInfo[] results = result.GetFiles();
 
-            //string query = "SELECT keyword, fileName FROM keywords";
-            //var cmd = new MySqlCommand(query, dbc.Connection);
-            //var reader = cmd.ExecuteReader();
-            //while (reader.Read())
+            //String sourceName = "";
+            //String resultName = "";
+            //int foundCount = 0;
+            //int numNotFound = 0;
+
+            //bool isFound = false;
+            //for (int i = 0; i < sources.Length; i++)
             //{
-            //    string keyword = reader.GetString(0);
-            //    string filename = reader.GetString(1);
-            //    Console.WriteLine("Keyword: " + keyword + ", File: " + filename);
-            //}
+            //    isFound = false;
+            //    foundCount = 0;
+            //    for (int j = 0; j < results.Length; j++)
+            //    {
+            //        sourceName = sources[i].Name.Substring(0, 7);
+            //        resultName = results[j].Name.Substring(0, 7);
+            //        if (sourceName == resultName)
+            //        {
+            //            if (isFound)
+            //            {
+            //                foundCount++;
+            //            }
+            //            isFound = true;
 
-            //dbc.Close();
+            //        }
+            //    }
+            //    if (!isFound)
+            //    {
+            //        Console.WriteLine("Source: " + sourceName + " Result: " + resultName);
+            //        numNotFound++;
+
+            //    }
+            //    if (foundCount > 1) Console.WriteLine(sourceName);
+            //}
+            //Console.WriteLine(numNotFound);
+
+            DBConnection dbc = SetUpDBConnection();
+            if (dbc.IsConnected()) Console.WriteLine("Conncted Successfully");
+            //AnalyzeSingleArticle();
+            //AnalyzeAllArticles(dbc);
+            StringBuilder sb = new StringBuilder();
+
+            string query = "SELECT keyword, fileName FROM keywords";
+            var cmd = new MySqlCommand(query, dbc.Connection);
+            var reader = cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                string keyword = reader.GetString(0);
+                string filename = reader.GetString(1);
+                if(keyword != null && filename != null)
+                {
+                    var newLine = $"{keyword}, {filename}";
+                    sb.AppendLine(newLine);
+
+                }
+                //Console.WriteLine("Keyword: " + keyword + ", File: " + filename);
+            }
+
+            File.WriteAllText(@"C:\Users\mumm9\Documents\ISU\Fall2017\COMS 490\repos\PMCParser\test.csv", sb.ToString());
+
+            dbc.Close();
         }
 
         public static void MoveFiles()
         {
             Manager manager = new Manager(
-                "C://Users//mumm9//Documents//ISU//Fall2017//COMS 490//UK_test-sort//Subject_folders",
-                "C://Users//mumm9//Documents//ISU//Fall2017//COMS 490//UK_test-sort//result//");
+                "D://UKBiobank//Neuroimages//result",
+                "D://UKBiobank//Neuroimages//nifty//");
             manager.RenameAndRelocate();
         }
 
