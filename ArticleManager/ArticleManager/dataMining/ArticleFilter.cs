@@ -53,7 +53,12 @@ namespace ArticleAnalyzer
                         Console.WriteLine(i + ") Success\n\tFile: " + fileName + "\n\tKeywords:");
                     Console.WriteLine("\t\t" + word);
                     MySqlCommand cmd = connection.CreateCommand();
-                    cmd.CommandText = "INSERT INTO keywords(keyword, fileName) VALUES(?keyword, ?fileName)";
+                    cmd.CommandText =
+                        @"INSERT INTO keywords(keyword, fileName) 
+                            SELECT ?keyword, ?fileName FROM dual
+                                WHERE NOT EXISTS(SELECT 1  FROM keywords
+                                    WHERE keyword = ?keyword
+                                    AND fileName = ?fileName)";
                     cmd.Parameters.AddWithValue("?keyword", word);
                     cmd.Parameters.AddWithValue("?fileName", fileName);
                     cmd.ExecuteNonQuery();

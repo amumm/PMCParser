@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MySql.Data.MySqlClient;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -24,6 +25,51 @@ namespace ArticleAnalyzer
             //result = CleanResult(result);
 
             return result;
+        }
+
+        public void FindHeaderInfo(MySqlConnection connection)
+        {
+            List<String> attributes = new List<string>();
+            attributes.Add("journal_title");
+            attributes.Add("title");
+            attributes.Add("authors");
+            attributes.Add("date");
+            attributes.Add("issue");
+            attributes.Add("volume");
+
+            String prefix = "citation_";
+            String tag = "";
+            int tagLength = 0;
+
+            foreach (String attribute in attributes)
+            {
+                prefix = "citation_";
+                tag = prefix + attribute;
+                tagLength = tag.Length;
+
+                FindContent(tag, tagLength);
+            }
+            Console.WriteLine("");
+
+            //MySqlCommand cmd = connection.CreateCommand();
+            //cmd.CommandText = "INSERT INTO keywords(keyword, fileName) VALUES(?keyword, ?fileName)";
+            //cmd.Parameters.AddWithValue("?keyword", word);
+            //cmd.Parameters.AddWithValue("?fileName", fileName);
+            //cmd.ExecuteNonQuery();
+        }
+
+        private void FindContent(String tag, int tagLength)
+        {
+            int start, end;
+            String content = "";
+            if (article.Contains(tag))
+            {
+                start = article.IndexOf(tag);
+                content = article.Substring(start + tagLength + 11); //move foraward to the atart of authors
+                end = content.IndexOf("/");
+                content = content.Substring(0, end - 2);
+                Console.WriteLine(content);
+            }
         }
 
         private string CleanResult(string result)

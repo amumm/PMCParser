@@ -58,26 +58,26 @@ namespace ArticleAnalyzer
             DBConnection dbc = SetUpDBConnection();
             if (dbc.IsConnected()) Console.WriteLine("Conncted Successfully");
             //AnalyzeSingleArticle();
-            //AnalyzeAllArticles(dbc);
-            StringBuilder sb = new StringBuilder();
+            AnalyzeAllArticles(dbc);
+            //StringBuilder sb = new StringBuilder();
 
-            string query = "SELECT keyword, fileName FROM keywords";
-            var cmd = new MySqlCommand(query, dbc.Connection);
-            var reader = cmd.ExecuteReader();
-            while (reader.Read())
-            {
-                string keyword = reader.GetString(0);
-                string filename = reader.GetString(1);
-                if(keyword != null && filename != null)
-                {
-                    var newLine = $"{keyword}, {filename}";
-                    sb.AppendLine(newLine);
+            //string query = "SELECT keyword, fileName FROM keywords";
+            //var cmd = new MySqlCommand(query, dbc.Connection);
+            //var reader = cmd.ExecuteReader();
+            //while (reader.Read())
+            //{
+            //    string keyword = reader.GetString(0);
+            //    string filename = reader.GetString(1);
+            //    if(keyword != null && filename != null)
+            //    {
+            //        var newLine = $"{keyword}, {filename}";
+            //        sb.AppendLine(newLine);
 
-                }
-                //Console.WriteLine("Keyword: " + keyword + ", File: " + filename);
-            }
+            //    }
+            //    //Console.WriteLine("Keyword: " + keyword + ", File: " + filename);
+            //}
 
-            File.WriteAllText(@"C:\Users\mumm9\Documents\ISU\Fall2017\COMS 490\repos\PMCParser\test.csv", sb.ToString());
+            //File.WriteAllText(@"C:\Users\mumm9\Documents\ISU\Fall2017\COMS 490\repos\PMCParser\test.csv", sb.ToString());
 
             dbc.Close();
         }
@@ -132,21 +132,28 @@ namespace ArticleAnalyzer
                 if (filter.PassesAllFilters(stringFile))
                 {
                     String result = parser.DefineSections();
+
+
                     if (result != null && result != "" && result != " ")
                     {
+                        parser.FindHeaderInfo(dbc.Connection);
+                        Console.WriteLine(file.Name);
+                        Console.WriteLine(result);
+                        Console.WriteLine("");
+                        //continue;
                         if (!filter.FindKeyWords(file.Name, result, i, dbc.Connection))
                         {
-                            Console.WriteLine(i + ") Failed:\n\tReason: Neither Methods nor Results Contain Keywords\n\tFile: " + file.Name);
+                            //Console.WriteLine(i + ") Failed:\n\tReason: Neither Methods nor Results Contain Keywords\n\tFile: " + file.Name);
 
                         }
 
                     }
-                    else
-                        Console.WriteLine(i + ") Failed:\n\tReason: No Methods or Result\n\tFile: " + file.Name);
+                    else { }
+                        //Console.WriteLine(i + ") Failed:\n\tReason: No Methods or Result\n\tFile: " + file.Name);
                 }
                 else
                 {
-                    Console.WriteLine(i + ") Failed:\n\tReason: Failed Filter\n\tFile: " + file.Name);
+                    //Console.WriteLine(i + ") Failed:\n\tReason: Failed Filter\n\tFile: " + file.Name);
                 }
                 i++;
 
