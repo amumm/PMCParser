@@ -1,0 +1,9 @@
+while read line; do 
+	if [ ! -f ../../html_download/$line ]; 
+	then
+
+		wget -U Mozilla/5.0 -H -nc -np -nH --cut-dirs=1 -e robots=off  https://www.ncbi.nlm.nih.gov/pmc/articles/$line --no-check-certificate 
+
+		mv -vn index.html ../../html_download/$line
+	fi
+done < pmc_id_paper_list.txt

@@ -20,23 +20,19 @@ namespace ArticleAnalyzer
             FileInfo validKeyWordFile = new FileInfo(validKeyWordsPath);
             var validReader = validKeyWordFile.OpenText();
 
-            String line;
+            String referenceLine = "";
+            String validLine = "";
 
             referenceKeyWords = new ArrayList();
             validKeyWords = new ArrayList();
 
-            while ((line = referenceReader.ReadLine()) != null)
+            while ((referenceLine = referenceReader.ReadLine()) != null || (validLine = validReader.ReadLine()) != null)
             {
-                referenceKeyWords.Add(line);
+                if (referenceLine != null) referenceKeyWords.Add(referenceLine);
+                if(validLine != null) validKeyWords.Add(validLine);
             }
 
             referenceReader.Close();
-
-            while ((line = validReader.ReadLine()) != null)
-            {
-                validKeyWords.Add(line);
-            }
-
             validReader.Close();
 
         }
