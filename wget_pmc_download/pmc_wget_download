@@ -1,9 +1,18 @@
+limit=$1
+COUNT=0
 while read line; do 
-	if [ ! -f ../../html_download/$line ]; 
+	if [ $COUNT == $1 ];
+	then
+		echo limit reached
+		echo $1
+		break
+	fi
+	if [ ! -f "C:\Users\mumm9\Documents\ISU\Fall2017\COMS490\repos\html_download\\$line" ]; 
 	then
 
 		wget -U Mozilla/5.0 -H -nc -np -nH --cut-dirs=1 -e robots=off  https://www.ncbi.nlm.nih.gov/pmc/articles/$line --no-check-certificate 
 
-		mv -vn index.html ../../html_download/$line
+		/bin/mv -vn index.html "C:\Users\mumm9\Documents\ISU\Fall2017\COMS490\repos\html_download\\$line"
 	fi
-done < pmc_id_paper_list.txt
+	COUNT=$((COUNT+1))
+done < "C:\Users\mumm9\Documents\ISU\Fall2017\COMS490\repos\PMCParser\wget_pmc_download\pmc_id_paper_list.txt"

@@ -1,0 +1,4 @@
+while read a b
+do
+    echo "..${a}..${b}"
+done < <(echo "SELECT * FROM keywords" | mysql -h mysql.cs.iastate.edu -u dbu490amumm -p zjsb8J9H4ajW)

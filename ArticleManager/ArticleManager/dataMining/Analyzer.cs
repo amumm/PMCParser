@@ -8,6 +8,8 @@ using Data;
 using MySql.Data.MySqlClient;
 using System.Collections;
 using ArticleAnalyzer.dataMining;
+using System.Diagnostics;
+using HtmlAgilityPack;
 
 namespace ArticleAnalyzer
 {
@@ -16,13 +18,19 @@ namespace ArticleAnalyzer
 
         static void Main(string[] args)
         {
-            DBConnection dbc = SetUpDBConnection();
-            if (dbc.IsConnected())
-            {
-                Console.WriteLine("Conncted Successfully");
-                AnalyzeAllArticles(dbc);
-                dbc.Close();
-            }
+            var url = @"https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1941906";
+            var web = new HtmlWeb();
+            var doc = web.Load(url);
+            doc.Save(@"C:\Users\mumm9\Documents\ISU\Fall2017\COMS490\repos\html_download\PMC1941906");
+            //Console.WriteLine(doc);
+            //RunWget();
+            //DBConnection dbc = SetUpDBConnection();
+            //if (dbc.IsConnected())
+            //{
+            //    Console.WriteLine("Conncted Successfully");
+            //    AnalyzeAllArticles(dbc);
+            //    dbc.Close();
+            //}
         }
 
         public static void MoveFiles()
@@ -77,7 +85,7 @@ namespace ArticleAnalyzer
 
         public static void AnalyzeAllArticles(DBConnection dbc)
         {
-            String validKeyWordPath = "C://Users//mumm9//Documents//ISU//Fall2017//COMS 490//Wget attempt//validKeyWords.txt";
+            String validKeyWordPath = @"C:\Users\mumm9\Documents\ISU\Fall2017\COMS490\repos\PMCParser\wget_pmc_download\validKeyWords.txt";
 
             String stringFile;
             StreamReader reader;
@@ -85,7 +93,7 @@ namespace ArticleAnalyzer
 
             ArrayList papers = new ArrayList();
 
-            var articleDirectory = new DirectoryInfo("C://Users//mumm9//Documents//ISU//Fall2017//COMS 490//Wget attempt//html_download");
+            var articleDirectory = new DirectoryInfo("C://Users//mumm9//Documents//ISU//Fall2017//COMS490//repos//html_download");
             var files = articleDirectory.GetFiles();
 
             int i = 1;
@@ -124,6 +132,22 @@ namespace ArticleAnalyzer
         {
             DBConnection dbc = new DBConnection("mysql.cs.iastate.edu", "db490amumm", "dbu490amumm", "zjsb8J9H4ajW");
             return dbc;
+        }
+
+        public static void getHtml()
+        {
+            //ProcessStartInfo psi = new ProcessStartInfo();
+            //psi.FileName = @"C:\cygwin64\bin\bash.exe";
+            //psi.UseShellExecute = false;
+            //psi.RedirectStandardOutput = true;
+
+            //psi.Arguments = @"C:\Users\mumm9\Documents\ISU\Fall2017\COMS490\repos\PMCParser\wget_pmc_download\pmc_wget_download 150";
+            //Process p = Process.Start(psi);
+            //string strOutput = p.StandardOutput.ReadToEnd();
+            //p.WaitForExit();
+            //Console.WriteLine(strOutput);
+
+
         }
     }
 }
