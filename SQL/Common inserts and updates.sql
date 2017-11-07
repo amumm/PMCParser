@@ -1,5 +1,12 @@
 select * from keywords;
 
+select Count(*) from Stored_Articles;
+
+select * from Stored_Articles;
+
+select * from Articles_To_Download;
+select Count(*) from Articles_To_Download;
+
 select * from keywords
 WHERE keyword = '';
 

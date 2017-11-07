@@ -1,15 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using Data;
 using MySql.Data.MySqlClient;
 using System.Collections;
 using ArticleAnalyzer.dataMining;
-using System.Diagnostics;
-using HtmlAgilityPack;
 
 namespace ArticleAnalyzer
 {
@@ -18,19 +13,15 @@ namespace ArticleAnalyzer
 
         static void Main(string[] args)
         {
-            var url = @"https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1941906";
-            var web = new HtmlWeb();
-            var doc = web.Load(url);
-            doc.Save(@"C:\Users\mumm9\Documents\ISU\Fall2017\COMS490\repos\html_download\PMC1941906");
-            //Console.WriteLine(doc);
-            //RunWget();
-            //DBConnection dbc = SetUpDBConnection();
-            //if (dbc.IsConnected())
-            //{
-            //    Console.WriteLine("Conncted Successfully");
-            //    AnalyzeAllArticles(dbc);
-            //    dbc.Close();
-            //}
+            
+            DBConnection dbc = SetUpDBConnection();
+            if (dbc.IsConnected())
+            {
+                Console.WriteLine("Conncted Successfully");
+                getHtml(dbc);
+                //AnalyzeAllArticles(dbc);
+                dbc.Close();
+            }
         }
 
         public static void MoveFiles()
@@ -64,25 +55,6 @@ namespace ArticleAnalyzer
             File.WriteAllText(@"C:\Users\mumm9\Documents\ISU\Fall2017\COMS 490\repos\PMCParser\test.csv", sb.ToString());
         }
 
-        public static void AnalyzeSingleArticle(DBConnection dbc)
-        {
-            FileInfo file = new FileInfo("C://Users//mumm9//Documents//ISU//Fall2017//COMS 490//Wget attempt//html_download//PMC_joe");
-            String stringFile;
-            StreamReader reader;
-            ArticleParser parser;
-
-            reader = file.OpenText();
-            stringFile = reader.ReadToEnd();
-            JournalPaper paper = new JournalPaper();
-            parser = new ArticleParser(file, stringFile, "", dbc, paper);
-            String result = parser.DefineSections();
-            if (result != null && result != "" && result != " ")
-            {
-                Console.WriteLine(file.Name + result);
-
-            }
-        }
-
         public static void AnalyzeAllArticles(DBConnection dbc)
         {
             String validKeyWordPath = @"C:\Users\mumm9\Documents\ISU\Fall2017\COMS490\repos\PMCParser\wget_pmc_download\validKeyWords.txt";
@@ -113,7 +85,7 @@ namespace ArticleAnalyzer
                     {
                         parser.FindHeaderInfo();
                         Console.WriteLine(file.Name);
-                        Console.WriteLine(methodsAndResults);
+                        //Console.WriteLine(methodsAndResults);
                         Console.WriteLine("");
                         parser.FindKeyWords(file.Name, methodsAndResults, i, dbc.Connection);
                         
@@ -134,19 +106,15 @@ namespace ArticleAnalyzer
             return dbc;
         }
 
-        public static void getHtml()
+        public static void getHtml(DBConnection dbc)
         {
-            //ProcessStartInfo psi = new ProcessStartInfo();
-            //psi.FileName = @"C:\cygwin64\bin\bash.exe";
-            //psi.UseShellExecute = false;
-            //psi.RedirectStandardOutput = true;
-
-            //psi.Arguments = @"C:\Users\mumm9\Documents\ISU\Fall2017\COMS490\repos\PMCParser\wget_pmc_download\pmc_wget_download 150";
-            //Process p = Process.Start(psi);
-            //string strOutput = p.StandardOutput.ReadToEnd();
-            //p.WaitForExit();
-            //Console.WriteLine(strOutput);
-
+            //HtmlDownloader.AddArticlesToDownloadToDb(
+            //    @"C:\Users\mumm9\Documents\ISU\Fall2017\COMS490\repos\PMCParser\wget_pmc_download\pmc_id_paper_list.txt",
+            //    dbc);
+            //HtmlDownloader.UpdateDbWithStoredArticles(dbc, @"C:\Users\mumm9\Documents\ISU\Fall2017\COMS490\repos\html_download");
+            HtmlDownloader.AddPMCIdToDb(dbc, 
+                @"C:\Users\mumm9\Documents\ISU\Fall2017\COMS490\repos\html_download\",
+                @"https://www.ncbi.nlm.nih.gov/pmc/articles/");
 
         }
     }

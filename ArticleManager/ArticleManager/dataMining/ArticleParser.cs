@@ -32,7 +32,8 @@ namespace ArticleAnalyzer
             this.dbc = dbc;
             this.paper = paper;
 
-
+            //TODO
+            //Add valid keywords to the batabase
             FileInfo validKeyWordFile =  new FileInfo(validKeyWordsPath);
 
             var validReader = validKeyWordFile.OpenText();

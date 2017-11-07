@@ -67,6 +67,7 @@
     <Compile Include="dataMining\Analyzer.cs" />
     <Compile Include="dataMining\ArticleParser.cs" />
     <Compile Include="dataMining\FindandMove.cs" />
+    <Compile Include="dataMining\HtmlDownloader.cs" />
     <Compile Include="dataMining\JournalPaper.cs" />
     <Compile Include="Data\DBConnection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
