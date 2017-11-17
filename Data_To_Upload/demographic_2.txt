@@ -1,0 +1,76 @@
+Genetic Data:SNP genotyping
+Genetic Data:Whole Genome Sequencing
+Genetic Data:RNA Seq
+Genetic Data:CHIP Seq
+Genetic Data:Genotype
+Genetic Data:Array Sequencing
+Genetic Data:Multilocus genome-wide data
+Genetic Data:rs
+Genetic Data:APOE4 Status
+Genetic Data:Beadchip
+Genetic Data:Quad BeadChip Array
+Genetic Data:Allele
+Genetic Data:Genetic Ancestry
+Genetic Data:PLINK
+Genetic Data:CNV
+Genetic Data:Copy Number Variation
+Genetic Data:Illumina Human610-Quad BeadChip
+Genetic Data:Illumina HumanOmniExpress BeadChip
+Genetic Data:Illumina Omni 2.5M (WGS Platform)
+Genetic Data:Gene Expression
+Genetic Data:DNA
+Genetic Data:RNA
+Genetic Data:(WGS)
+PET:Positron Emission Tomography
+PET:Uptake
+PET:SUVR
+PET:standardized uptake value (SUV)
+PET:SPECT
+PET:Single Photon Emission Tomography
+PET:18FDG PET
+PET:18-F-FDG
+PET:18F-FDG
+PET:Fludeoxyglucose (18F)
+Clinical:Diagnosis
+Clinical:Disease
+Clinical:Status
+Clinical:Baseline Diagnosis
+Clinical:Screening Labs
+Clinical:Neurological Exam
+Clinical:Vital Signs
+Clinical:Blood Pressure
+Clinical:Height
+Clinical:Weight
+Clinical:BMI
+Clinical:Body Mass Index
+Clinical:Biospecimen
+Clinical:Medical history
+Clinical:Family History
+Clinical:Diagnositic Summary
+Clinical:Lumbar Puncture
+Clinical:Exams
+Clinical:Reflex
+Clinical:Blood Count
+Clinical:WBC
+Clinical:Whole Blood Count
+Clinical:White Blood Cell Count
+Clinical:Blood Cell Count
+Clinical:Homocysteine
+Clinical:Isoprostanes
+Clinical:sAPP�
+Clinical:Solubule APP
+Clinical:BACE
+Clinical:Enzyme activity
+Clinical:Plasma
+Clinical:Serum
+Clinical:Urine
+Clinical:Cells
+Clinical:Feces
+Clinical:Microbiota
+Clinical:Microbes
+Clinical:Buffy Coat
+Amyloid:A� 40 and A� 42
+MRI:MPRAGE
+MRI:MP-Rage
+ASL:ASL
+ASL:Arterial Spin Labeling

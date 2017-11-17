@@ -5,6 +5,8 @@ using Data;
 using MySql.Data.MySqlClient;
 using System.Collections;
 using ArticleAnalyzer.dataMining;
+using ArticleAnalyzer.Data;
+using System.Diagnostics;
 
 namespace ArticleAnalyzer
 {
@@ -13,15 +15,27 @@ namespace ArticleAnalyzer
 
         static void Main(string[] args)
         {
-            
-            DBConnection dbc = SetUpDBConnection();
-            if (dbc.IsConnected())
-            {
-                Console.WriteLine("Conncted Successfully");
-                getHtml(dbc);
-                //AnalyzeAllArticles(dbc);
-                dbc.Close();
-            }
+            //GetPmcIds();
+
+            String parentSubjectDirectory = @"D:\UKBiobank\Neuroimages\result";
+            String jobFilesResultDirectory = @"D:\Batch_and_Job\Jobs";
+            String pathToSubjectFoldersOnServer = @"R:\FSHN\Willette_Research\UkBiobank\Neuroimages\Resting_state_FMRI\Unzipped\Subjects";
+            String pathToJobFilesOnServer = @"R:\FSHN\Willette_Research\UkBiobank\Neuroimages\Resting_state_FMRI\Unzipped\Jobs";
+            String batchFilesResultDirectory = @"D:\Batch_and_Job\Batch";
+
+            Manager preProc = new Manager(parentSubjectDirectory, jobFilesResultDirectory);
+            preProc.GeneratePreProcJobFiles(pathToSubjectFoldersOnServer);
+            preProc.GeneratePreProcBatchFiles(pathToJobFilesOnServer, batchFilesResultDirectory);
+
+            //DBConnection dbc = SetUpDBConnection();
+            //if (dbc.IsConnected())
+            //{
+            //    Console.WriteLine("Conncted Successfully");
+            //    //DBManagement.AddDataTypesToTable(@"C:\Users\mumm9\Documents\ISU\Fall2017\COMS490\repos\PMCParser\Data_To_Upload\memory.txt", dbc);
+            //    //getHtml(dbc);
+            //    AnalyzeAllArticles(dbc);
+            //    dbc.Close();
+            //}
         }
 
         public static void MoveFiles()
@@ -57,8 +71,6 @@ namespace ArticleAnalyzer
 
         public static void AnalyzeAllArticles(DBConnection dbc)
         {
-            String validKeyWordPath = @"C:\Users\mumm9\Documents\ISU\Fall2017\COMS490\repos\PMCParser\wget_pmc_download\validKeyWords.txt";
-
             String stringFile;
             StreamReader reader;
             ArticleParser parser;
@@ -76,7 +88,7 @@ namespace ArticleAnalyzer
                 stringFile = reader.ReadToEnd();
                 JournalPaper paper = new JournalPaper();
                 papers.Add(paper);
-                parser = new ArticleParser(file, stringFile, validKeyWordPath, dbc, paper);
+                parser = new ArticleParser(file, stringFile, dbc, paper);
 
                 if (parser.PassesAllFilters())
                 {
@@ -106,13 +118,32 @@ namespace ArticleAnalyzer
             return dbc;
         }
 
-        public static void getHtml(DBConnection dbc)
+        public static void GetPmcIds()
+        {
+            String command = @"C:\Users\mumm9\Documents\ISU\Fall2017\COMS490\repos\PMCParser\Initial_ID_Collection\collect_ids C:\Users\mumm9\Documents\ISU\Fall2017\COMS490\repos\PMCParser\Initial_ID_Collection\out.txt 'opsin gene conversion'";
+            String bash = @"C:\cygwin64\bin\bash.exe";
+            
+            Process myProcess = new Process();
+            myProcess.StartInfo.UseShellExecute = false;
+            myProcess.StartInfo.FileName = bash;
+            myProcess.StartInfo.Arguments = command;
+            myProcess.StartInfo.CreateNoWindow = true;
+            myProcess.StartInfo.UseShellExecute = false;
+            myProcess.StartInfo.RedirectStandardOutput = true;
+            myProcess.Start();
+
+            myProcess.WaitForExit();
+            string strOutput = myProcess.StandardOutput.ReadToEnd();
+            Console.WriteLine(strOutput);
+        }
+
+        public static void GetHtml(DBConnection dbc)
         {
             //HtmlDownloader.AddArticlesToDownloadToDb(
             //    @"C:\Users\mumm9\Documents\ISU\Fall2017\COMS490\repos\PMCParser\wget_pmc_download\pmc_id_paper_list.txt",
             //    dbc);
             //HtmlDownloader.UpdateDbWithStoredArticles(dbc, @"C:\Users\mumm9\Documents\ISU\Fall2017\COMS490\repos\html_download");
-            HtmlDownloader.AddPMCIdToDb(dbc, 
+            HtmlDownloader.DownloadArticleByPMCId(dbc, 
                 @"C:\Users\mumm9\Documents\ISU\Fall2017\COMS490\repos\html_download\",
                 @"https://www.ncbi.nlm.nih.gov/pmc/articles/");
 

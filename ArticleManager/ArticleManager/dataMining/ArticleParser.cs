@@ -25,38 +25,33 @@ namespace ArticleAnalyzer
 
         private JournalPaper paper;
 
-        public ArticleParser(FileInfo file, String article, String validKeyWordsPath, DBConnection dbc, JournalPaper paper)
+        public ArticleParser(FileInfo file, String article, DBConnection dbc, JournalPaper paper)
         {
             this.file = file;
             this.article = article;
             this.dbc = dbc;
             this.paper = paper;
 
-            //TODO
-            //Add valid keywords to the batabase
-            FileInfo validKeyWordFile =  new FileInfo(validKeyWordsPath);
-
-            var validReader = validKeyWordFile.OpenText();
-            String validLine = "";
-
             referenceKeyWords = new ArrayList();
             validKeyWords = new ArrayList();
 
-            while ((validLine = validReader.ReadLine()) != null)
+            string query = "SELECT Key_Word FROM Data_Types";
+            var cmd = new MySqlCommand(query, dbc.Connection);
+            var validReader = cmd.ExecuteReader();
+            while (validReader.Read())
             {
-                if (validLine != null) validKeyWords.Add(validLine);
+                validKeyWords.Add(validReader.GetString(0));
             }
-
             validReader.Close();
 
-            string query = "SELECT keyword FROM Reference_Keywords";
-            var cmd = new MySqlCommand(query, dbc.Connection);
-            var reader = cmd.ExecuteReader();
-            while (reader.Read())
+            query = "SELECT keyword FROM Reference_Keywords";
+            cmd = new MySqlCommand(query, dbc.Connection);
+            var referenceReader = cmd.ExecuteReader();
+            while (referenceReader.Read())
             {
-                referenceKeyWords.Add(reader.GetString(0));
+                referenceKeyWords.Add(referenceReader.GetString(0));
             }
-            reader.Close();
+            referenceReader.Close();
         }
 
         public bool PassesAllFilters()

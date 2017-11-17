@@ -1,0 +1,27 @@
+Clinical:NAUSEA
+Clinical:VOMIT
+Clinical:DIARRHEA
+Clinical:CONSTPATION
+Clinical:ABDOMNINAL
+Clinical:PAIN
+Clinical:SWEATING
+Clinical:DIZZY
+Clinical:ENERGY
+Clinical:DROWSY
+Clinical:VISION
+Clinical:HEADACHE
+Clinical:DRYMOUTH
+Clinical:BREATHING
+Clinical:COUGH
+Clinical:PALPITATION
+Clinical:CHEST
+Clinical:URINE
+Clinical:URINE FREQUENCY
+Clinical:MUSCLE
+Clinical:RASH
+Clinical:INSOMNIA
+Clinical:MOOD
+Clinical:CRYING
+Clinical:DEPRESSION
+Clinical:WANDER
+Clinical:FALL

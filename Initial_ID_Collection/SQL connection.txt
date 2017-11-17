@@ -1,0 +1,1 @@
+mysql --host="mysql.cs.iastate.edu" --database="db490amumm" --user="dbu490amumm" --password="zjsb8J9H4ajW" 

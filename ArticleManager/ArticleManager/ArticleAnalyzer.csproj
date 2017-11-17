@@ -63,13 +63,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="allIndexesOf.cs" />
-    <Compile Include="dataMining\ArticleFilter.cs" />
     <Compile Include="dataMining\Analyzer.cs" />
     <Compile Include="dataMining\ArticleParser.cs" />
     <Compile Include="dataMining\FindandMove.cs" />
     <Compile Include="dataMining\HtmlDownloader.cs" />
     <Compile Include="dataMining\JournalPaper.cs" />
     <Compile Include="Data\DBConnection.cs" />
+    <Compile Include="Data\DBManagement.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

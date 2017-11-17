@@ -1,0 +1,6 @@
+while read line; do 
+	echo "INSERT INTO Articles_To_Download(PMC_Id)
+			SELECT $line FROM dual
+				WHERE NOT EXISTS(SELECT 1 FROM Articles_To_Download WHERE PMC_Id = $line)
+				AND NOT EXISTS(SELECT 1 FROM Article_Status WHERE PMC_Id = $line);" | mysql --host="mysql.cs.iastate.edu" --database="db490amumm" --user="dbu490amumm" --password="zjsb8J9H4ajW";
+done < "output.txt"

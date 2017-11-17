@@ -1,8 +1,13 @@
 select * from keywords;
 
-select Count(*) from Stored_Articles;
+select Count(*) from Article_Status;
 
-select * from Stored_Articles;
+select * from Article_Status;
+
+select PMC_Id from Articles_To_Download
+Where PMC_Id not in (select (PMC_Id)
+					from Article_Status where
+                    Downloaded = 1);
 
 select * from Articles_To_Download;
 select Count(*) from Articles_To_Download;
@@ -32,6 +37,13 @@ INSERT INTO keywords(keyword, filename)
 		AND filename = 'y')
 
 
+
+select * from test;
+
+INSERT INTO Articles_To_Download(PMC_Id)
+			SELECT PMC_Id FROM dual
+				WHERE NOT EXISTS(SELECT 1 FROM Articles_To_Download WHERE PMC_Id = 10)
+				AND NOT EXISTS(SELECT 1 FROM Article_Status WHERE PMC_Id = 10);
 
         
         

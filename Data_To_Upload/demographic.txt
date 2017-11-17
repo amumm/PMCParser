@@ -1,0 +1,52 @@
+Demographic data:age
+Demographic data:sex
+Demographic data:gender
+Demographic data:education
+Demographic data:race
+Demographic data:ethnicity
+Memory:Ravlt
+Memory:moca
+Memory:montreal cognitive assessment
+Memory:ray audiotry verbal learnign test
+Memory:cvlt
+Memory:california verbal learning test
+Memory:sdm
+Memory:symbol digit modality
+Memory:verbal recal
+Memory:Memory Score
+Exectutive Function:Judging
+Exectutive Function:Planning
+Exectutive Function:Time Management
+Exectutive Function:Prioritization
+Exectutive Function:Executive Factor Score
+Blood Values:Amyloid Beta
+Blood Values:Amyloid Beta 42
+Blood Values:A-Beta
+Blood Values:ABeta
+Blood Values:Amyloid
+Blood Values:Abeta42
+Blood Values:Abeta40
+Blood Values:Insulin
+Blood Values:Glucose
+Cerebrospinal fluid:Tau
+Cerebrospinal fluid:Phosphorylated Tau
+Cerebrospinal fluid:P-Tau
+Cerebrospinal fluid:pTau
+Cerebrospinal fluid:Amyloid Beta
+Cerebrospinal fluid:Amyloid Beta 42
+Cerebrospinal fluid:A-Beta
+Cerebrospinal fluid:ABeta
+Cerebrospinal fluid:Amyloid
+Cerebrospinal fluid:Abeta42
+Cerebrospinal fluid:Abeta40
+MRI:Volumetric MRI
+MRI:Magnetic Resonance Imaging
+MRI:Voxel Wise
+MRI:VBM
+MRI:Voxel Based Morphometry
+DTI:Diffusion Tensor Imaging
+DTI:Tensors
+DTI:Diffusion Imaging
+fMRI:Functional MRI
+fMRI:Functional Magnetic Resonance Imaging
+fMRI:Activation

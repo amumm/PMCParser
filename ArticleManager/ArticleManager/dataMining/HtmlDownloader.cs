@@ -9,24 +9,17 @@ namespace ArticleAnalyzer.dataMining
 {
     public static class HtmlDownloader
     {
-        public static void AddPMCIdToDb(DBConnection dbc, String htmlFileSavePath, String urlPrefix)
+        public static void DownloadArticleByPMCId(DBConnection dbc, String htmlFileSavePath, String urlPrefix)
         {
-            ArrayList idsOfStoredArticles = new ArrayList();
             ArrayList idsOfArticlesToDownload = new ArrayList();
 
-            string query = "SELECT * FROM Stored_Articles";
+            var query = @"SELECT PMC_Id FROM Articles_To_Download
+                        WHERE PMC_Id NOT IN 
+                              (SELECT(PMC_Id)
+                               FROM Article_Status 
+                               WHERE Downloaded = 1)";
             var cmd = new MySqlCommand(query, dbc.Connection);
             var DbReader = cmd.ExecuteReader();
-
-            while (DbReader.Read())
-            {
-                idsOfStoredArticles.Add(DbReader.GetString(0));
-            }
-            DbReader.Close();
-
-            query = "SELECT * FROM Articles_To_Download";
-            cmd = new MySqlCommand(query, dbc.Connection);
-            DbReader = cmd.ExecuteReader();
 
             while (DbReader.Read())
             {
@@ -38,8 +31,6 @@ namespace ArticleAnalyzer.dataMining
 
             foreach(var id in idsOfArticlesToDownload)
             {
-                if (idsOfStoredArticles.Contains(id)) continue;
-
                 FileInfo htmlFile = new FileInfo(htmlFileSavePath + id);
                 if(!htmlFile.Exists)
                 {
@@ -51,10 +42,12 @@ namespace ArticleAnalyzer.dataMining
                     insertCommand = dbc.Connection.CreateCommand();
                     insertCommand.CommandText =
                     @"INSERT INTO Stored_Articles(PMC_Id) 
-                    SELECT ?id FROM dual
-                        WHERE NOT EXISTS(SELECT 1  FROM Stored_Articles
-                            WHERE PMC_Id = ?id)";
-                    insertCommand.Parameters.AddWithValue("?id", id);
+                    SELECT ?id, ?status, ?valid FROM dual
+                                WHERE NOT EXISTS(SELECT 1  FROM Article_Status
+                                    WHERE PMC_Id = ?id)";
+                    cmd.Parameters.AddWithValue("?id", id);
+                    cmd.Parameters.AddWithValue("?Downloaded", 1);
+                    cmd.Parameters.AddWithValue("?valid", 0);
                     insertCommand.ExecuteNonQuery();
                     Console.WriteLine(id);
 
@@ -74,11 +67,13 @@ namespace ArticleAnalyzer.dataMining
             {
                 cmd = dbc.Connection.CreateCommand();
                 cmd.CommandText =
-                @"INSERT INTO Stored_Articles(PMC_Id) 
-                            SELECT ?id FROM dual
-                                WHERE NOT EXISTS(SELECT 1  FROM Stored_Articles
+                @"INSERT INTO Article_Status(PMC_Id, Status, Valid) 
+                            SELECT ?id, ?status, ?valid FROM dual
+                                WHERE NOT EXISTS(SELECT 1  FROM Article_Status
                                     WHERE PMC_Id = ?id)";
                 cmd.Parameters.AddWithValue("?id", file.Name);
+                cmd.Parameters.AddWithValue("?Downloaded", 1);
+                cmd.Parameters.AddWithValue("?valid", 0);
                 cmd.ExecuteNonQuery();
             }
         }
@@ -102,6 +97,8 @@ namespace ArticleAnalyzer.dataMining
                 @"INSERT INTO Articles_To_Download(PMC_Id) 
                 SELECT ?id FROM dual
                     WHERE NOT EXISTS(SELECT 1  FROM Articles_To_Download
+                        WHERE PMC_Id = ?id)
+                        AND WHERE NOT EXISTS(SELECT 1  FROM Article_Status
                         WHERE PMC_Id = ?id)";
                 insertCommand.Parameters.AddWithValue("?id", line);
                 insertCommand.ExecuteNonQuery();
@@ -110,5 +107,4 @@ namespace ArticleAnalyzer.dataMining
             }
         }
     }
-
 }

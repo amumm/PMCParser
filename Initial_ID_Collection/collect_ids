@@ -1,0 +1,1 @@
+esearch -db pmc -query "$2" |  efetch -format docsum | xtract -pattern DocumentSummary -element Id >> "$1"
