@@ -38,13 +38,7 @@ namespace ArticleAnalyzer
             //}
         }
 
-        public static void MoveFiles()
-        {
-            Manager manager = new Manager(
-                "D://UKBiobank//Neuroimages//result",
-                "D://UKBiobank//Neuroimages//nifty//");
-            manager.RenameAndRelocate();
-        }
+        
 
         public void WriteToExcel(DBConnection dbc)
         {
