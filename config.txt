@@ -1,0 +1,19 @@
+Database Connection = "mysql.cs.iastate.edu";
+
+Database Name = "db490amumm";
+
+Database Username = "dbu490amumm";
+
+Database Password = "zjsb8J9H4ajW";
+
+Bash Path = "C:\cygwin64\bin\bash.exe";
+
+eSearch Script Path = "C:\Users\mumm9\Documents\ISU\Fall2017\COMS490\repos\PMCParser\Initial_ID_Collection\collect_ids";
+
+ID Output File = "C:\Users\mumm9\Documents\ISU\Fall2017\COMS490\repos\PMCParser\Initial_ID_Collection\out.txt";
+
+PMC Articles URL Prefix = "https://www.ncbi.nlm.nih.gov/pmc/articles/";
+
+Article Directory = "C:\Users\mumm9\Documents\ISU\Fall2017\COMS490\repos\html_download";
+
+Excel Output Directory = "C:\Users\mumm9\Documents\ISU\Fall2017\COMS490\repos\PMCParser";

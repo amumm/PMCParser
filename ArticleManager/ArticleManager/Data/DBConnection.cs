@@ -1,8 +1,7 @@
-﻿using MySql.Data;
-using MySql.Data.MySqlClient;
+﻿using MySql.Data.MySqlClient;
 using System;
 
-namespace Data
+namespace ArticleAnalyzer.Data
 {
     public class DBConnection
     {
