@@ -98,8 +98,7 @@ namespace ArticleAnalyzer.DataRetrieval
                 SELECT ?id FROM dual
                     WHERE NOT EXISTS(SELECT 1  FROM Articles_To_Download
                         WHERE PMC_Id = ?id)
-                        AND WHERE NOT EXISTS(SELECT 1  FROM Article_Status
-                        WHERE PMC_Id = ?id)";
+                        AND NOT EXISTS(SELECT 1 FROM Article_Status WHERE PMC_Id = ?id)";
                 insertCommand.Parameters.AddWithValue("?id", line);
                 insertCommand.ExecuteNonQuery();
 
