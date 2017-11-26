@@ -1,8 +1,8 @@
-﻿using ArticleAnalyzer.Data;
+﻿using Processing.Data;
 using System;
 using System.Collections.Generic;
 
-namespace ArticleAnalyzer.DataRetrieval
+namespace Processing.DataRetrieval
 {
     public static class Retriever
     {
@@ -10,8 +10,7 @@ namespace ArticleAnalyzer.DataRetrieval
         {
             List<String> query = new List<String>();
             query.Add("'opsin gene conversion'");
-            //query.Add("'opsin gene conversion'");
-            //IdManager.GetPmcIds(query, config.IdOutputPath, config.ESearchScriptPath, config.BashPath);
+            IdManager.GetPmcIds(query, config.IdOutputPath, config.ESearchScriptPath, config.BashPath);
             GetHtml(config, dbc);
         }
 

@@ -1,11 +1,11 @@
-﻿using ArticleAnalyzer.Data;
-using HtmlAgilityPack;
+﻿using HtmlAgilityPack;
 using MySql.Data.MySqlClient;
+using Processing.Data;
 using System;
 using System.Collections;
 using System.IO;
 
-namespace ArticleAnalyzer.DataRetrieval
+namespace Processing.DataRetrieval
 {
     public static class HtmlDownloader
     {

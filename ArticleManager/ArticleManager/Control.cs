@@ -17,8 +17,8 @@ namespace ArticleAnalyzer
             if (dbc.IsConnected())
             {
                 Console.WriteLine("Conncted Successfully");
-                //Retriever.Control(config, dbc);
-                Analyzer.Control(config, dbc);
+                Retriever.Control(config, dbc);
+                //Analyzer.Control(config, dbc);
                 //Writer.Control(config, dbc, excelOutputName);
                 dbc.Close();
             }
