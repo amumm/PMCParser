@@ -11,8 +11,8 @@ namespace ArticleAnalyzer.DataRetrieval
             List<String> query = new List<String>();
             query.Add("'opsin gene conversion'");
             //query.Add("'opsin gene conversion'");
-            //IdManager.GetPmcIds(query, config.IdOutputPath, config.ESearchScriptPath, config.BashPath);
-            GetHtml(config, dbc);
+            IdManager.GetPmcIds(query, config.IdOutputPath, config.ESearchScriptPath, config.BashPath);
+            //GetHtml(config, dbc);
         }
 
         private static void GetHtml(Configuration config, DBConnection dbc)

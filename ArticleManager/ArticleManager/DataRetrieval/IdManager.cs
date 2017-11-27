@@ -23,8 +23,8 @@ namespace ArticleAnalyzer.DataRetrieval
                 myProcess.Start();
 
                 myProcess.WaitForExit();
-                string strOutput = myProcess.StandardOutput.ReadToEnd();
-                Console.WriteLine(strOutput);
+                Console.WriteLine("finished");
+                
 
             }
         }

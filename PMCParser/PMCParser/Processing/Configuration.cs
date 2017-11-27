@@ -42,8 +42,6 @@ namespace Processing
                 parameters.Add(configString.Substring(equals[i] + 3, length));
             }
 
-            foreach (var param in parameters) Console.WriteLine(param);
-
             DataBaseConnectionName = parameters[0];
             DataBaseName = parameters[1];
             DataBaseUsername = parameters[2];

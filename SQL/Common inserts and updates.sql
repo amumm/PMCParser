@@ -1,20 +1,16 @@
-select * from keywords;
-
 select Count(*) from Article_Status;
-
 select * from Article_Status;
-
-select PMC_Id from Articles_To_Download
-
-Where PMC_Id not in (select (PMC_Id)
-					from Article_Status where
-                    Downloaded = 1);
 
 select * from Articles_To_Download;
 select Count(*) from Articles_To_Download;
 
 select * from Articles_To_Analyze;
 select Count(*) from Articles_To_Analyze;
+
+select PMC_Id from Articles_To_Download
+Where PMC_Id not in (select (PMC_Id)
+					from Article_Status where
+                    Downloaded = 1);
 
 select * from keywords
 WHERE keyword = '';

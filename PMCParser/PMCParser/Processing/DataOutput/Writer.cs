@@ -30,7 +30,7 @@ namespace Processing.DataOutput
                     sb.AppendLine(newLine);
 
                 }
-                //Console.WriteLine("Keyword: " + keyword + ", File: " + filename);
+                //Debug.WriteLine("Keyword: " + keyword + ", File: " + filename);
             }
 
             File.WriteAllText(config.ExcelOutputDirectory + outputFileName, sb.ToString());

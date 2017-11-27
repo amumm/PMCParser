@@ -18,25 +18,27 @@ export class HomeComponent {
 
     createList() {
         console.log("here");
-        this.http.get(this.baseUrl + 'api/PMCController/CreateList').subscribe(result => {
-            var output = result;
+        var output;
+        this.http.get(this.baseUrl + 'api/PM/CreateList').subscribe(result => {
+            output = result.json.toString();
         }, error => console.error(error));
+        console.log(output);
     }
 
     downloadArticles() {
-        this.http.get(this.baseUrl + 'api/PMCController/DownloadArticles').subscribe(result => {
+        this.http.get(this.baseUrl + 'api/PM/DownloadArticles').subscribe(result => {
             var output = result;
         }, error => console.error(error));
     }
 
     analyzeArticles() {
-        this.http.get(this.baseUrl + 'api/PMCController/AnalyzeArticles').subscribe(result => {
+        this.http.get(this.baseUrl + 'api/PM/AnalyzeArticles').subscribe(result => {
             var output = result;
         }, error => console.error(error));
     }
 
     exportData() {
-        this.http.get(this.baseUrl + 'api/PMCController/ExportData').subscribe(result => {
+        this.http.get(this.baseUrl + 'api/PM/ExportData').subscribe(result => {
             var output = result;
         }, error => console.error(error));
     }
