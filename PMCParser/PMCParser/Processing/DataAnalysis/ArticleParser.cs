@@ -57,9 +57,15 @@ namespace Processing.DataAnalysis
         {
             foreach (String word in referenceKeyWords)
             {
-                if (article.Contains(word))
+                //if (article.Contains(word))
+                //{
+                //    Console.WriteLine("Failed:\n\tReason: Failed Filter for Reference KeyWord\n\tFile: " + file.Name);
+                //    return false;
+                //}
+
+                if (article.Contains("sub-head section-title"))
                 {
-                    Console.WriteLine("Failed:\n\tReason: Failed Filter\n\tFile: " + file.Name);
+                    Console.WriteLine("Failed:\n\tReason: Failed Filter for PDF\n\tFile: " + file.Name);
                     return false;
                 }
             }

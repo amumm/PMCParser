@@ -12,7 +12,7 @@ namespace FileManipulation
         static void Main(string[] args)
         {
             //MoveFiles();
-            //GeneratePreProc();
+            GeneratePreProc();
         }
 
         public static void MoveFiles()
@@ -24,11 +24,14 @@ namespace FileManipulation
         }
 
         public static void GeneratePreProc(){
-            String parentSubjectDirectory = @"D:\UKBiobank\Neuroimages\result";
-            String jobFilesResultDirectory = @"D:\Batch_and_Job\Jobs";
-            String pathToSubjectFoldersOnServer = @"R:\FSHN\Willette_Research\UkBiobank\Neuroimages\Resting_state_FMRI\Unzipped\Subjects";
-            String pathToJobFilesOnServer = @"R:\FSHN\Willette_Research\UkBiobank\Neuroimages\Resting_state_FMRI\Unzipped\Jobs";
-            String batchFilesResultDirectory = @"D:\Batch_and_Job\Batch";
+            String parent = @"R:\FSHN\Willette_Research\ROS_MAP\Baseline\Raw\Resting_state\Unzipped";
+
+            String parentSubjectDirectory =     @"R:\FSHN\Willette_Research\ROS_MAP\Baseline\Raw\Resting_state\Unzipped\Subjects";
+            String jobFilesResultDirectory =    @"R:\FSHN\Willette_Research\ROS_MAP\Baseline\Raw\Resting_state\Unzipped\Jobs";
+            String batchFilesResultDirectory =  @"R:\FSHN\Willette_Research\ROS_MAP\Baseline\Raw\Resting_state\Unzipped\Batch";
+
+            String pathToSubjectFoldersOnServer =   @"R:\FSHN\Willette_Research\ROS_MAP\Baseline\Raw\Resting_state\Unzipped\Subjects";
+            String pathToJobFilesOnServer =         @"R:\FSHN\Willette_Research\ROS_MAP\Baseline\Raw\Resting_state\Unzipped\Jobs";
 
             PreProcCreator preProc = new PreProcCreator(parentSubjectDirectory, jobFilesResultDirectory);
             preProc.GeneratePreProcJobFiles(pathToSubjectFoldersOnServer);

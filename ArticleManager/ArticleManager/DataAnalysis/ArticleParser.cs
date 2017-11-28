@@ -55,6 +55,11 @@ namespace ArticleAnalyzer.DataAnalysis
 
         public bool PassesAllFilters()
         {
+            if (article.Contains("sub-head section-title"))
+            {
+                Console.WriteLine("Failed:\n\tReason: Failed Filter for PDF\n\tFile: " + file.Name);
+                return false;
+            }
             foreach (String word in referenceKeyWords)
             {
                 if (article.Contains(word))
@@ -62,6 +67,7 @@ namespace ArticleAnalyzer.DataAnalysis
                     Console.WriteLine("Failed:\n\tReason: Failed Filter\n\tFile: " + file.Name);
                     return false;
                 }
+
             }
 
             return true;
