@@ -16,10 +16,10 @@ namespace FileManipulation.Tasks
             ResultPath = resultPath;
         }
 
-        public void GeneratePreProcJobFiles(String pathToSubjectFoldersOnServer)
+        public void GeneratePreProcJobFiles(String pathToSubjectFoldersOnServer, String dumbyJobFilePath)
         {
 
-            FileInfo jobFile = new FileInfo(@"C:\Users\mumm9\Documents\ISU\Fall2017\COMS490\Parent\Batch_RestingStatefMRI_Preproc(A,R,W,S)_job.m");
+            FileInfo jobFile = new FileInfo(dumbyJobFilePath);
             StreamReader reader = jobFile.OpenText();
             String stringFile = reader.ReadToEnd();
 
@@ -54,10 +54,10 @@ namespace FileManipulation.Tasks
 
         }
 
-        public void GeneratePreProcBatchFiles(String pathtoJobFilesOnServer, String pathToBatchResult)
+        public void GeneratePreProcBatchFiles(String pathtoJobFilesOnServer, String pathToBatchResult, String dumbyBatchFilePath)
         {
             DirectoryInfo locationOfJobFiles = new DirectoryInfo(ResultPath);
-            FileInfo batchFile = new FileInfo(@"C:\Users\mumm9\Documents\ISU\Fall2017\COMS490\Parent\Batch_RestingStatefMRI_Preproc(A,R,W,S).m");
+            FileInfo batchFile = new FileInfo(dumbyBatchFilePath);
             StreamReader reader = batchFile.OpenText();
             String stringFile = reader.ReadToEnd();
 
@@ -73,7 +73,7 @@ namespace FileManipulation.Tasks
             FileInfo[] files = locationOfJobFiles.GetFiles();
             foreach (var file in files)
             {
-                result += "\'" + pathtoJobFilesOnServer + @"\" + file.Name + "\'";
+                result += "\'" + pathtoJobFilesOnServer + @"\" + file.Name + "\',\n\t\t\t";
 
             }
             result += endOfFile;

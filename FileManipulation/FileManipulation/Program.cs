@@ -33,9 +33,13 @@ namespace FileManipulation
             String pathToSubjectFoldersOnServer =   @"R:\FSHN\Willette_Research\ROS_MAP\Baseline\Raw\Resting_state\Unzipped\Subjects";
             String pathToJobFilesOnServer =         @"R:\FSHN\Willette_Research\ROS_MAP\Baseline\Raw\Resting_state\Unzipped\Jobs";
 
+            String dumbyJobFilePath =   @"R:\FSHN\Willette_Research\ROS_MAP\Baseline\Raw\Resting_state\Unzipped\Batch_RestingStatefMRI_Preproc(A,R,W,S)_job.m";
+            String dumbyBatchFilePath = @"R:\FSHN\Willette_Research\ROS_MAP\Baseline\Raw\Resting_state\Unzipped\Batch_RestingStatefMRI_Preproc(A,R,W,S).m";
+
             PreProcCreator preProc = new PreProcCreator(parentSubjectDirectory, jobFilesResultDirectory);
-            preProc.GeneratePreProcJobFiles(pathToSubjectFoldersOnServer);
-            preProc.GeneratePreProcBatchFiles(pathToJobFilesOnServer, batchFilesResultDirectory);
+
+            preProc.GeneratePreProcJobFiles(pathToSubjectFoldersOnServer, dumbyJobFilePath);
+            preProc.GeneratePreProcBatchFiles(pathToJobFilesOnServer, batchFilesResultDirectory, dumbyBatchFilePath);
         }
     }
 }

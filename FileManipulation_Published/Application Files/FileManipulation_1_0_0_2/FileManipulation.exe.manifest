@@ -1,0 +1,65 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<asmv1:assembly xsi:schemaLocation="urn:schemas-microsoft-com:asm.v1 assembly.adaptive.xsd" manifestVersion="1.0" xmlns:asmv1="urn:schemas-microsoft-com:asm.v1" xmlns="urn:schemas-microsoft-com:asm.v2" xmlns:asmv2="urn:schemas-microsoft-com:asm.v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:co.v1="urn:schemas-microsoft-com:clickonce.v1" xmlns:asmv3="urn:schemas-microsoft-com:asm.v3" xmlns:dsig="http://www.w3.org/2000/09/xmldsig#" xmlns:co.v2="urn:schemas-microsoft-com:clickonce.v2">
+  <asmv1:assemblyIdentity name="FileManipulation.exe" version="1.0.0.2" publicKeyToken="90c9afa1fc8a47fe" language="neutral" processorArchitecture="msil" type="win32" />
+  <application />
+  <entryPoint>
+    <assemblyIdentity name="FileManipulation" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
+    <commandLine file="FileManipulation.exe" parameters="" />
+  </entryPoint>
+  <trustInfo>
+    <security>
+      <applicationRequestMinimum>
+        <PermissionSet Unrestricted="true" ID="Custom" SameSite="site" />
+        <defaultAssemblyRequest permissionSetReference="Custom" />
+      </applicationRequestMinimum>
+      <requestedPrivileges xmlns="urn:schemas-microsoft-com:asm.v3">
+        <!--
+          UAC Manifest Options
+          If you want to change the Windows User Account Control level replace the 
+          requestedExecutionLevel node with one of the following.
+
+        <requestedExecutionLevel  level="asInvoker" uiAccess="false" />
+        <requestedExecutionLevel  level="requireAdministrator" uiAccess="false" />
+        <requestedExecutionLevel  level="highestAvailable" uiAccess="false" />
+
+         If you want to utilize File and Registry Virtualization for backward 
+         compatibility then delete the requestedExecutionLevel node.
+    -->
+        <requestedExecutionLevel level="asInvoker" uiAccess="false" />
+      </requestedPrivileges>
+    </security>
+  </trustInfo>
+  <dependency>
+    <dependentOS>
+      <osVersionInfo>
+        <os majorVersion="5" minorVersion="1" buildNumber="2600" servicePackMajor="0" />
+      </osVersionInfo>
+    </dependentOS>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="preRequisite" allowDelayedBinding="true">
+      <assemblyIdentity name="Microsoft.Windows.CommonLanguageRuntime" version="4.0.30319.0" />
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="FileManipulation.exe" size="10160">
+      <assemblyIdentity name="FileManipulation" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>Ov1T/BDHXIZTIpOfKhdQ2SvvUNNlkYWKwOoGYB+lvCQ=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <file name="FileManipulation.exe.config" size="189">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>rl5/qDc7Jz+tB+BIbOv9iMGPlRe6YJwrjmU09dnlPcs=</dsig:DigestValue>
+    </hash>
+  </file>
+<publisherIdentity name="CN=MUMM-SP4\Mumm" issuerKeyHash="70c8d25c7cef93208e37a13bbbd38b0bd3d44dcd" /><Signature Id="StrongNameSignature" xmlns="http://www.w3.org/2000/09/xmldsig#"><SignedInfo><CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /><SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha256" /><Reference URI=""><Transforms><Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" /><Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /></Transforms><DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" /><DigestValue>z5y0YOAxXa7EhE64OZUFi/hLLhqEoAnSgvruqdlzXwA=</DigestValue></Reference></SignedInfo><SignatureValue>jZssDypNflnC5il3LTxpAJ8efTVjTlxEzaPvdAeALpK8+EGUjhUbIZTtOyKM/rZxORmyqONRglr0YhAP0xLffVH1YjHScupfhp68v5CQklhJwshjb7BV6PPU/1tOnSQo6Yw/KygKnTMjtTkj95jBlRf3nVTtCftPpaNgTvUM7Qw=</SignatureValue><KeyInfo Id="StrongNameKeyInfo"><KeyValue><RSAKeyValue><Modulus>muw/ZJS8l6J30W5gQDERg+arsuJsA0axT96MxfbXgWspywlTnvudNX6UB2dpqXdwBmJHTogdeVjSfMybgcVQeU/edP24RQtQGyUeZnjZTTsMLGN6aHPJB7RPXQgHoRkyyz92A0UN68Gl60s+4MSSSRkZF7aqgL/1V+g3GX6lPAE=</Modulus><Exponent>AQAB</Exponent></RSAKeyValue></KeyValue><msrel:RelData xmlns:msrel="http://schemas.microsoft.com/windows/rel/2005/reldata"><r:license xmlns:r="urn:mpeg:mpeg21:2003:01-REL-R-NS" xmlns:as="http://schemas.microsoft.com/windows/pki/2005/Authenticode"><r:grant><as:ManifestInformation Hash="005f73d9a9eefa82d209a0841a2e4bf88b059539b84e84c4ae5d31e060b49ccf" Description="" Url=""><as:assemblyIdentity name="FileManipulation.exe" version="1.0.0.2" publicKeyToken="90c9afa1fc8a47fe" language="neutral" processorArchitecture="msil" type="win32" /></as:ManifestInformation><as:SignedBy /><as:AuthenticodePublisher><as:X509SubjectName>CN=MUMM-SP4\Mumm</as:X509SubjectName></as:AuthenticodePublisher></r:grant><r:issuer><Signature Id="AuthenticodeSignature" xmlns="http://www.w3.org/2000/09/xmldsig#"><SignedInfo><CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /><SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha256" /><Reference URI=""><Transforms><Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" /><Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /></Transforms><DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" /><DigestValue>u4nuGNla5AiUO8M8/rjwnf3RXUX15n2NrurwzVFgE6M=</DigestValue></Reference></SignedInfo><SignatureValue>RDK19n4XxoB6oA5uvVOr995DRS2QXBQ1QHq1czSQfA8wQdyNRfeWN6nsSO8YQyQyRZm8NHAOhWVPjC/Dq034rU1M91h7YrzrgwFJ/NA/AucE4MiP/hO2sRHsCIfe/dLHXsTMAdVjpWBSNyIIWWBE8kjmDpm0MbWv4BY/E6g6lnk=</SignatureValue><KeyInfo><KeyValue><RSAKeyValue><Modulus>muw/ZJS8l6J30W5gQDERg+arsuJsA0axT96MxfbXgWspywlTnvudNX6UB2dpqXdwBmJHTogdeVjSfMybgcVQeU/edP24RQtQGyUeZnjZTTsMLGN6aHPJB7RPXQgHoRkyyz92A0UN68Gl60s+4MSSSRkZF7aqgL/1V+g3GX6lPAE=</Modulus><Exponent>AQAB</Exponent></RSAKeyValue></KeyValue><X509Data><X509Certificate>MIIBzTCCATagAwIBAgIQYUO74sf+3JhHzbHc3QTKhTANBgkqhkiG9w0BAQsFADAlMSMwIQYDVQQDHhoATQBVAE0ATQAtAFMAUAA0AFwATQB1AG0AbTAeFw0xNzExMjgxOTQ3MzBaFw0xODExMjkwMTQ3MzBaMCUxIzAhBgNVBAMeGgBNAFUATQBNAC0AUwBQADQAXABNAHUAbQBtMIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCa7D9klLyXonfRbmBAMRGD5quy4mwDRrFP3ozF9teBaynLCVOe+501fpQHZ2mpd3AGYkdOiB15WNJ8zJuBxVB5T950/bhFC1AbJR5meNlNOwwsY3poc8kHtE9dCAehGTLLP3YDRQ3rwaXrSz7gxJJJGRkXtqqAv/VX6DcZfqU8AQIDAQABMA0GCSqGSIb3DQEBCwUAA4GBAHYnmQIUHO4E/wO6hVYO3uEzCHymImrbx+lOTL7uZ+SbCfs9Ri6dnAg4+nVuIvzlCfnldWAU44JGHxx8CxDQqlGbLGHxESKNqmUoIwamRL79NNLlmwnb7vNcJzQG1sYa8lvD0DTqg2sWMDtcx/i2yWonwUDZ+mDMfr6LyS3jXQXl</X509Certificate></X509Data></KeyInfo></Signature></r:issuer></r:license></msrel:RelData></KeyInfo></Signature></asmv1:assembly>
