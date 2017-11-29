@@ -16,21 +16,6 @@ export class HomeComponent {
         this.baseUrl = baseUrl;
     }
 
-    createList() {
-        console.log("here");
-        var output;
-        this.http.get(this.baseUrl + 'api/PM/CreateList').subscribe(result => {
-            output = result.json.toString();
-        }, error => console.error(error));
-        console.log(output);
-    }
-
-    downloadArticles() {
-        this.http.get(this.baseUrl + 'api/PM/DownloadArticles').subscribe(result => {
-            var output = result;
-        }, error => console.error(error));
-    }
-
     analyzeArticles() {
         this.http.get(this.baseUrl + 'api/PM/AnalyzeArticles').subscribe(result => {
             var output = result;
