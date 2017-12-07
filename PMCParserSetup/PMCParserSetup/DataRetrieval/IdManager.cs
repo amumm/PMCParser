@@ -9,6 +9,9 @@ namespace PMCParserSetup.DataRetrieval
     {
         public static void GetPmcIds(String queriesFilePath, String idOutputFile, String eSearchPath, String bashPath)
         {
+            Console.Write("Downloading IDs: ");
+
+
             List<String> queries = GetQueries(queriesFilePath);
 
             foreach(var query in queries)
@@ -26,7 +29,9 @@ namespace PMCParserSetup.DataRetrieval
 
                 myProcess.WaitForExit();
             }
-            Console.WriteLine("IDs Downloaded");
+
+            Console.WriteLine("Finished");
+
         }
 
         private static List<String> GetQueries(String queriesFilePath)

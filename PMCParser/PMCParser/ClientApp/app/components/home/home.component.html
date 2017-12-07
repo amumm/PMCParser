@@ -2,4 +2,4 @@
 
 <button (click)="analyzeArticles()">Analyze Articles</button>
 
-<button (click)="exportData()">Export Results</button>
+<button [disabled]="this.exportToExcel" (click)="exportData()">Export Results</button>

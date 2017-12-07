@@ -8,17 +8,23 @@ namespace PMCParserSetup.DataRetrieval
     {
         public static void Control(Configuration config, DBConnection dbc)
         {
-            IdManager.GetPmcIds(config.QueriesFilePath, config.IdOutputPath, config.ESearchScriptPath, config.BashPath);
-            GetHtml(config, dbc);
-        }
-
-        private static void GetHtml(Configuration config, DBConnection dbc)
-        {
-            HtmlDownloader.Add_IDs_To_Articles_To_Analyze(config.IdOutputPath, dbc);
-            HtmlDownloader.Add_IDs_To_Articles_To_Download(config.IdOutputPath, dbc);
-            HtmlDownloader.UpdateDbWithStoredArticles(dbc, config.ArticleDirectory);
-            HtmlDownloader.DownloadArticleByPMCId(dbc, config.ArticleDirectory, config.PMCUrlPrefix);
-
+            while (true)
+            {
+                Console.Write("\n1) Fetch IDs\n2) Download Articles by IDs\n3) Main Menu\nEnter a number:");
+                var input = Console.ReadLine();
+                if(input == "1"){
+                    IdManager.GetPmcIds(config.QueriesFilePath, config.IdOutputPath, config.ESearchScriptPath, config.BashPath);
+                    HtmlDownloader.Add_IDs_To_Articles_Status(config.IdOutputPath, dbc);
+                    HtmlDownloader.UpdateDbWithStoredArticles(dbc, config.ArticleDirectory);
+                }
+                else if(input == "2"){
+                    HtmlDownloader.DownloadArticleByPMCId(dbc, config.ArticleDirectory, config.PMCUrlPrefix);
+                }
+                if(input == "3") {
+                    break;
+                }
+                input = "0";
+            }
         }
     }
 }

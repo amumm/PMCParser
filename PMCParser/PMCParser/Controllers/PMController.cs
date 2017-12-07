@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using Processing;
 using Processing.Data;
-using Processing.DataRetrieval;
 using Processing.DataAnalysis;
 using Processing.DataOutput;
 using System.Diagnostics;
@@ -12,10 +11,10 @@ namespace PMCParser.Controllers
     [Route("api/[controller]")]
     public class PMController : Controller
     {
-        public String configPath = @"C:\Users\mumm9\Documents\ISU\Fall2017\COMS490\repos\PMCParser\config.txt";
+        public String configPath = @"C:\Users\mumm9\Documents\ISU\Fall2017\COMS490\repos\PMCParser\Config_Files\config.txt";
 
         [HttpGet("[action]")]
-        public void AnalyzeArticles()
+        public Boolean  AnalyzeArticles()
         {
             Configuration config = new Configuration(configPath);
             DBConnection dbc = new DBConnection(config.DataBaseConnectionName, config.DataBaseName, config.DataBaseUsername, config.DataBasePassword);
@@ -24,8 +23,11 @@ namespace PMCParser.Controllers
                 Debug.WriteLine("Conncted Successfully");
                 Analyzer.Control(config, dbc);
                 dbc.Close();
+                return false;
             }
-            else Debug.WriteLine("Connection Failed");
+
+            Debug.WriteLine("Connection Failed");
+            return true;
         }
 
         [HttpGet("[action]")]

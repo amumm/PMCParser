@@ -1,6 +1,0 @@
-c:\users\mumm9\source\repos\ArticleManager\ArticleManager\bin\Release\ArticleManager.exe.config
-c:\users\mumm9\source\repos\ArticleManager\ArticleManager\bin\Release\ArticleManager.exe
-c:\users\mumm9\source\repos\ArticleManager\ArticleManager\bin\Release\ArticleManager.pdb
-c:\users\mumm9\source\repos\ArticleManager\ArticleManager\obj\Release\ArticleManager.csproj.CoreCompileInputs.cache
-c:\users\mumm9\source\repos\ArticleManager\ArticleManager\obj\Release\ArticleManager.exe
-c:\users\mumm9\source\repos\ArticleManager\ArticleManager\obj\Release\ArticleManager.pdb

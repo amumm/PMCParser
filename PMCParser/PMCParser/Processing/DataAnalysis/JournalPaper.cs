@@ -1,7 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Processing.DataAnalysis
 {
+    public class DataType
+    {
+        private String Name;
+
+        private List<String> keywords;
+    }
+
     public class JournalPaper
     {
         public string JournalTitle { get; set; }
@@ -14,11 +22,13 @@ namespace Processing.DataAnalysis
 
         public string Date { get; set; }
 
+        public string PMCID { get; set; }
+
         public Array Authors;
 
         public Array CorrespondingAuthors;
 
-        public Array dataTypes;
+        public List<DataType> dataTypes;
 
         public JournalPaper()
         {

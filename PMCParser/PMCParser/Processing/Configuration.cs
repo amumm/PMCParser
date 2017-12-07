@@ -14,6 +14,8 @@ namespace Processing
 
         public String DataBasePassword;
 
+        public String QueriesFilePath;
+
         public String BashPath;
 
         public String ESearchScriptPath;
@@ -36,7 +38,7 @@ namespace Processing
             var semiColon = configString.AllIndexesOf(";");
             List<String> parameters = new List<String>();
 
-            for(var i = 0; i < equals.Count; i++)
+            for (var i = 0; i < equals.Count; i++)
             {
                 var length = semiColon[i] - equals[i] - 4;
                 parameters.Add(configString.Substring(equals[i] + 3, length));
@@ -46,16 +48,17 @@ namespace Processing
             DataBaseName = parameters[1];
             DataBaseUsername = parameters[2];
             DataBasePassword = parameters[3];
-            BashPath = parameters[4];
-            ESearchScriptPath = parameters[5];
-            IdOutputPath = parameters[6];
-            PMCUrlPrefix = parameters[7];
-            ArticleDirectory = parameters[8];
-            ExcelOutputDirectory= parameters[9];
+            QueriesFilePath = parameters[4];
+            BashPath = parameters[5];
+            ESearchScriptPath = parameters[6];
+            IdOutputPath = parameters[7];
+            PMCUrlPrefix = parameters[8];
+            ArticleDirectory = parameters[9];
+            ExcelOutputDirectory = parameters[10];
 
 
         }
 
-        
+
     }
 }

@@ -2,6 +2,7 @@
 using System.IO;
 using System.Collections;
 using Processing.Data;
+using MySql.Data.MySqlClient;
 
 namespace Processing.DataAnalysis
 {
@@ -14,10 +15,7 @@ namespace Processing.DataAnalysis
 
         private static void AnalyzeAllArticles(Configuration config, DBConnection dbc)
         {
-            String stringFile;
-            StreamReader reader;
-            ArticleParser parser;
-
+            
             ArrayList papers = new ArrayList();
 
             var articleDirectory = new DirectoryInfo(config.ArticleDirectory);
@@ -27,29 +25,36 @@ namespace Processing.DataAnalysis
 
             foreach (var file in files)
             {
-                reader = file.OpenText();
-                stringFile = reader.ReadToEnd();
+                
+                StreamReader reader = file.OpenText();
+                String stringFile = reader.ReadToEnd();
+                reader.Close();
+
                 JournalPaper paper = new JournalPaper();
                 papers.Add(paper);
-                parser = new ArticleParser(file, stringFile, dbc, paper);
 
-                if (parser.PassesAllFilters())
+                ArticleParser parser = new ArticleParser(file, stringFile, dbc, paper);
+
+                if (parser.PassesAllFilters(i))
                 {
-                    String methodsAndResults = parser.DefineSections();
+                    String methodsAndResults = parser.DefineSections(i);
                     if (methodsAndResults != null && methodsAndResults != "" && methodsAndResults != " ")
                     {
-                        parser.FindHeaderInfo();
-                        Console.WriteLine(file.Name);
-                        //Console.WriteLine(methodsAndResults);
-                        Console.WriteLine("");
                         parser.FindKeyWords(file.Name, methodsAndResults, i, dbc.Connection);
+                        //parser.FindHeaderInfo();
+
+                        MySqlCommand updateCommand = dbc.Connection.CreateCommand();
+
+                        updateCommand = dbc.Connection.CreateCommand();
+                        updateCommand.CommandText =
+                        @"UPDATE Article_Status s
+                        SET Valid = 1, To_Analyze = '0'
+                        WHERE s.PMC_Id = '" + file.Name + "'";
+                        updateCommand.ExecuteNonQuery();
                         
                     }
-                    else
-                        Console.WriteLine("Failed:\n\tReason: No Methods or Result\n\tFile: " + file.Name);
                 }
-
-                reader.Close();
+                i++;
             }
 
             Console.WriteLine("\n" + (i - 1));

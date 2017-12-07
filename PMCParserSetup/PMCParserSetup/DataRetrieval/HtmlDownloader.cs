@@ -11,14 +11,14 @@ namespace PMCParserSetup.DataRetrieval
     {
         public static void DownloadArticleByPMCId(DBConnection dbc, String htmlFileSavePath, String urlPrefix)
         {
+            Console.WriteLine("Articles Downloading...");
+
             ArrayList idsOfArticlesToDownload = new ArrayList();
 
-            var query = @"SELECT PMC_Id FROM Articles_To_Download
-                        WHERE PMC_Id NOT IN 
-                              (SELECT(PMC_Id)
-                               FROM Article_Status 
-                               WHERE Downloaded = 1)";
+            var query = @"SELECT PMC_Id FROM Article_Status
+                        WHERE Downloaded = '0' AND To_Analyze = '1'";
             var cmd = new MySqlCommand(query, dbc.Connection);
+
             var DbReader = cmd.ExecuteReader();
 
             while (DbReader.Read())
@@ -27,7 +27,7 @@ namespace PMCParserSetup.DataRetrieval
             }
             DbReader.Close();
 
-            MySqlCommand updateCommand = dbc.Connection.CreateCommand();
+            MySqlCommand updateCommand;
 
             foreach (var id in idsOfArticlesToDownload)
             {
@@ -45,100 +45,77 @@ namespace PMCParserSetup.DataRetrieval
                     SET Downloaded = 1
                     WHERE s.PMC_Id = '" + id + "'";
                     updateCommand.ExecuteNonQuery();
+
                     Console.WriteLine(id);
 
                 }
             }
 
-            Console.WriteLine("Articles Downloaded");
+            Console.WriteLine("Articles Download: Finished");
 
         }
 
         public static void UpdateDbWithStoredArticles(DBConnection dbc, String htmlFileSavePath)
         {
+            Console.Write("Updating DB with stored articles: ");
+
+
             DirectoryInfo dir = new DirectoryInfo(htmlFileSavePath);
 
             FileInfo[] files = dir.GetFiles();
 
-            MySqlCommand cmd = dbc.Connection.CreateCommand();
+            MySqlCommand insertCommand;
 
             foreach (var file in files)
             {
-                cmd = dbc.Connection.CreateCommand();
-                cmd.CommandText =
-                @"INSERT INTO Article_Status(PMC_Id, Valid, Downloaded) 
-                            SELECT ?id, ?valid, ?downloaded FROM dual
-                                WHERE NOT EXISTS(SELECT 1  FROM Article_Status
-                                    WHERE PMC_Id = ?id)";
-                cmd.Parameters.AddWithValue("?id", file.Name);
-                cmd.Parameters.AddWithValue("?downloaded", 1);
-                cmd.Parameters.AddWithValue("?valid", 3);
-                cmd.ExecuteNonQuery();
+                insertCommand = dbc.Connection.CreateCommand();
+
+                insertCommand.CommandText =
+                @"INSERT INTO Article_Status (PMC_Id, Valid, Downloaded, To_Analyze) 
+                    VALUES ('" + file.Name + @"', '3', '1', '1')
+                    ON DUPLICATE KEY UPDATE 
+                    Downloaded = '1'";
+                insertCommand.ExecuteNonQuery();
             }
 
-            Console.WriteLine("Updated DB with stored articles");
-
+            Console.WriteLine("Finished");
         }
 
-        public static void Add_IDs_To_Articles_To_Download(String filePath, DBConnection dbc)
+        public static void Add_IDs_To_Articles_Status(String filePath, DBConnection dbc)
         {
 
-            MySqlCommand insertCommand;
+            Console.Write("Adding IDs To Article_Status: ");
 
-            insertCommand = dbc.Connection.CreateCommand();
-            insertCommand.CommandText =
-            @"INSERT INTO Articles_To_Download(PMC_Id) 
-            SELECT a.PMC_Id FROM Articles_To_Analyze a
-                WHERE NOT EXISTS(SELECT d.PMC_Id  FROM Articles_To_Download d
-                                WHERE a.PMC_Id = d.PMC_Id)
-                                AND EXISTS(SELECT s.PMC_Id FROM Article_Status s
-                                WHERE a.PMC_Id = s.PMC_Id AND s.Valid = 3 AND s.Downloaded = 0)";
-            insertCommand.ExecuteNonQuery();
-
-            Console.WriteLine("Added IDs To Articles To Download");
-
-        }
-
-        public static void Add_IDs_To_Articles_To_Analyze(String filePath, DBConnection dbc)
-        {
 
             FileInfo file = new FileInfo(filePath);
             StreamReader reader = file.OpenText();
             String stringFile = reader.ReadToEnd();
+            reader.Close();
 
             StringReader stringReader = new StringReader(stringFile);
-            String line = stringReader.ReadLine();
+            String line = stringReader.ReadLine(); //Throw Out first ID in case it is bad.
+            line = stringReader.ReadLine();
 
             MySqlCommand insertCommand;
 
             while (line != null)
             {
                 insertCommand = dbc.Connection.CreateCommand();
-                insertCommand.CommandText =
-                @"INSERT INTO Articles_To_Analyze(PMC_Id) 
-                SELECT ?id FROM dual
-                    WHERE NOT EXISTS(SELECT 1  FROM Articles_To_Analyze
-                        WHERE PMC_Id = ?id)
-                        AND NOT EXISTS(SELECT 1 FROM Article_Status 
-                        WHERE PMC_Id = ?id AND Valid = 0)";
-                insertCommand.Parameters.AddWithValue("?id", "PMC" + line);
-                insertCommand.ExecuteNonQuery();
 
-                MySqlCommand cmd = dbc.Connection.CreateCommand();
-                cmd.CommandText =
-                @"INSERT INTO Article_Status(PMC_Id, Valid, Downloaded) 
-                  SELECT ?id, ?valid, ?downloaded FROM dual
-                                WHERE NOT EXISTS(SELECT 1  FROM Article_Status
-                                    WHERE PMC_Id = ?id)";
-                cmd.Parameters.AddWithValue("?id", "PMC" + line);
-                cmd.Parameters.AddWithValue("?downloaded", 0);
-                cmd.Parameters.AddWithValue("?valid", 3);
-                cmd.ExecuteNonQuery();
+                insertCommand.CommandText =
+                @"INSERT INTO Article_Status (PMC_Id, Valid, Downloaded, To_Analyze) 
+                    VALUES ('PMC" + line + @"', '3', '0', '1')
+                    ON DUPLICATE KEY UPDATE 
+                    To_Analyze = IF(Valid > 0, '1', '0')";
+                insertCommand.ExecuteNonQuery();
 
                 line = stringReader.ReadLine();
             }
 
-            Console.WriteLine("Added IDs To Articles To Analyze");
+            File.WriteAllText(file.FullName, String.Empty);
+
+            Console.WriteLine("Finished");
+
         }
     }
 }

@@ -38,6 +38,30 @@ namespace PMCParserSetup.Data
             dataTypesReader.Close();
         }
 
+        public static void AddReferenceWordsToTable(String referenceWordsFilePath, DBConnection dbc)
+        {
+            FileInfo dataTypes = new FileInfo(referenceWordsFilePath);
+            var dataTypesReader = dataTypes.OpenText();
+
+            MySqlCommand cmd;
+            String line = "";
+
+            while ((line = dataTypesReader.ReadLine()) != null)
+            {
+
+                cmd = dbc.Connection.CreateCommand();
+                cmd.CommandText =
+                    @"INSERT INTO Reference_Keywords(keyword) 
+                            SELECT ?keyword FROM dual
+                                WHERE NOT EXISTS(SELECT 1  FROM Reference_Keywords
+                                    WHERE keyword = ?keyword)";
+                cmd.Parameters.AddWithValue("?keyword", line);
+                cmd.ExecuteNonQuery();
+            }
+
+            dataTypesReader.Close();
+        }
+
 
     }
 }

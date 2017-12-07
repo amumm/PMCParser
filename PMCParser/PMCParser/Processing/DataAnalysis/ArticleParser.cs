@@ -5,8 +5,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Security.AccessControl;
-using System.Security.Principal;
 
 namespace Processing.DataAnalysis
 {
@@ -53,32 +51,57 @@ namespace Processing.DataAnalysis
             referenceReader.Close();
         }
 
-        public bool PassesAllFilters()
+        public bool PassesAllFilters(int i)
         {
+            MySqlCommand updateCommand = dbc.Connection.CreateCommand();
+
+            if (article.Contains("sub-head section-title"))
+            {
+                Console.Write(i + ") Failed: PDF, ");
+
+                file.Delete();
+
+                updateCommand = dbc.Connection.CreateCommand();
+                updateCommand.CommandText =
+                @"UPDATE Article_Status s
+                    SET Downloaded = 0, Valid = 0, To_Analyze = '0'
+                    WHERE s.PMC_Id = '" + file.Name + "'";
+                updateCommand.ExecuteNonQuery();
+                Console.WriteLine("the article " + file.Name + " was deleted\n");
+
+                return false;
+            }
+
             foreach (String word in referenceKeyWords)
             {
-                //if (article.Contains(word))
-                //{
-                //    Console.WriteLine("Failed:\n\tReason: Failed Filter for Reference KeyWord\n\tFile: " + file.Name);
-                //    return false;
-                //}
-
-                if (article.Contains("sub-head section-title"))
+                if (article.ToUpper().Contains(word.ToUpper()))
                 {
-                    Console.WriteLine("Failed:\n\tReason: Failed Filter for PDF\n\tFile: " + file.Name);
+                    Console.Write(i + ") Failed: Reference Article, ");
+
+                    file.Delete();
+
+                    updateCommand = dbc.Connection.CreateCommand();
+                    updateCommand.CommandText =
+                    @"UPDATE Article_Status s
+                        SET Downloaded = 0, Valid = 0, To_Analyze = '0'
+                        WHERE s.PMC_Id = '" + file.Name + "'";
+                    updateCommand.ExecuteNonQuery();
+                    Console.WriteLine("the article " + file.Name + " was deleted\n");
+
                     return false;
                 }
+
             }
 
             return true;
         }
 
-        public String DefineSections()
+        public String DefineSections(int j)
         {
             String temp = article;
             String result = "";
 
-            if (temp.Contains("Methods") || temp.Contains("Results"))
+            if (temp.ToUpper().Contains("METHODS") || temp.ToUpper().Contains("RESULTS"))
             {
                 List<int> indexesOfSections = article.AllIndexesOf("head no_bottom_margin");
 
@@ -86,12 +109,30 @@ namespace Processing.DataAnalysis
                 {
                     int length = indexesOfSections.ElementAt(i + 1) - indexesOfSections.ElementAt(i);
                     temp = article.Substring(indexesOfSections.ElementAt(i), length);
-                    if (temp.Contains("Methods") || temp.Contains("Results"))
+                    if (temp.ToUpper().Contains("METHODS") || temp.ToUpper().Contains("RESULTS"))
                     {
                         result += temp + "\t\n ";
 
                     }
                 }
+            }
+
+            if(result == null || result == "" || result == " ")
+            {
+                MySqlCommand updateCommand = dbc.Connection.CreateCommand();
+
+                Console.Write(j + ") Failed: No Methods or Results in File: " + file.Name + "\n");
+
+                file.Delete();
+
+                updateCommand = dbc.Connection.CreateCommand();
+                updateCommand.CommandText =
+                @"UPDATE Article_Status s
+                        SET Downloaded = 0, Valid = 0, To_Analyze = '0'
+                        WHERE s.PMC_Id = '" + file.Name + "'";
+                updateCommand.ExecuteNonQuery();
+                Console.WriteLine("the article " + file.Name + " was deleted\n");
+
             }
 
             return result;
@@ -125,14 +166,18 @@ namespace Processing.DataAnalysis
         public void FindKeyWords(String fileName, String article, int i, MySqlConnection connection)
         {
             bool hasKeyword = false;
+            String result = "";
             foreach (String word in validKeyWords)
             {
 
                 if (article.Contains(word.Trim()) && word.Trim() != "" && word != null)
                 {
                     if (!hasKeyword)
-                        Console.WriteLine(i + ") Success\n\tFile: " + fileName + "\n\tKeywords:");
-                    Console.WriteLine("\t\t" + word);
+                    {
+                        result += i + ") Success File: " + fileName + " contains the keywords: ";
+                    }
+
+                    result += word + ", ";
                     MySqlCommand cmd = connection.CreateCommand();
                     cmd.CommandText =
                         @"INSERT INTO keywords(keyword, fileName) 
@@ -148,7 +193,9 @@ namespace Processing.DataAnalysis
             }
 
             if(!hasKeyword)
-                Console.WriteLine("Failed:\n\tReason: Neither Methods nor Results Contain Keywords\n\tFile: " + file.Name);
+                Console.WriteLine(i + ") Failed: Neither Methods nor Results Contain Keywords in File: " + file.Name);
+
+            Console.WriteLine(result.Substring(0, result.Length - 2) + "\n");
         }
 
 

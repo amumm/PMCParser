@@ -1,0 +1,21 @@
+Database Connection 	| = "mysql.cs.iastate.edu";
+						|
+Database Name 			| = "db490amumm";
+						|
+Database Username 		| = "dbu490amumm";
+						|
+Database Password 		| = "zjsb8J9H4ajW";
+						|
+Queries File Path		| = "C:\Users\mumm9\Documents\ISU\Fall2017\COMS490\repos\PMCParser\Config_Files\queries.txt";
+						|						
+Bash Path 				| = "C:\Users\mumm9\Documents\ISU\Fall2017\COMS490\repos\PMCParser\PMCParser\PMCParser\bin\bash.exe";
+						|
+eSearch Script Path		| = "C:\Users\mumm9\Documents\ISU\Fall2017\COMS490\repos\PMCParser\Config_Files\collect_ids";
+						|
+ID Output File 			| = "C:\Users\mumm9\Documents\ISU\Fall2017\COMS490\repos\PMCParser\Config_Files\out.txt";
+						|
+PMC Articles URL Prefix | = "https://www.ncbi.nlm.nih.gov/pmc/articles/";
+						|
+Article Directory 		| = "C:\Users\mumm9\Documents\ISU\Fall2017\COMS490\repos\html_download";
+						|
+Excel Output Directory 	| = "C:\Users\mumm9\Documents\ISU\Fall2017\COMS490\repos\";
