@@ -16,7 +16,7 @@ namespace Processing.DataAnalysis
 
         private ArrayList referenceKeyWords;
 
-        private ArrayList validKeyWords;
+        private List<DataType> dataTypes;
 
         private DBConnection dbc;
 
@@ -30,16 +30,34 @@ namespace Processing.DataAnalysis
             this.paper = paper;
 
             referenceKeyWords = new ArrayList();
-            validKeyWords = new ArrayList();
+            dataTypes = new List<DataType>();
 
-            string query = "SELECT Key_Word FROM Data_Types";
+            string query = "SELECT DISTINCT Data_Type FROM Data_Types";
             var cmd = new MySqlCommand(query, dbc.Connection);
-            var validReader = cmd.ExecuteReader();
-            while (validReader.Read())
+            var typeReader = cmd.ExecuteReader();
+            List<String> types = new List<String>();
+            while (typeReader.Read())
             {
-                validKeyWords.Add(validReader.GetString(0));
+                types.Add(typeReader.GetString(0));
             }
-            validReader.Close();
+
+            typeReader.Close();
+
+            foreach (var type in types)
+            {
+                var temp = new DataType(type);
+                dataTypes.Add(temp);
+
+                query = @"SELECT Key_Word FROM Data_Types
+                          WHERE Data_Type = '" + temp.Name + "'";
+                cmd = new MySqlCommand(query, dbc.Connection);
+                var keyWordReader = cmd.ExecuteReader();
+                while (keyWordReader.Read())
+                {
+                    temp.keywords.Add(keyWordReader.GetString(0));
+                }
+                keyWordReader.Close();
+            }
 
             query = "SELECT keyword FROM Reference_Keywords";
             cmd = new MySqlCommand(query, dbc.Connection);
@@ -121,7 +139,7 @@ namespace Processing.DataAnalysis
             {
                 MySqlCommand updateCommand = dbc.Connection.CreateCommand();
 
-                Console.Write(j + ") Failed: No Methods or Results in File: " + file.Name + "\n");
+                Console.Write(j + ") Failed: No Methods or Results ");
 
                 file.Delete();
 
@@ -160,36 +178,46 @@ namespace Processing.DataAnalysis
 
                 FindContent(tag, tagLength, attribute);
             }
-            Console.WriteLine("");
+            //Console.WriteLine("");
         }
 
         public void FindKeyWords(String fileName, String article, int i, MySqlConnection connection)
         {
             bool hasKeyword = false;
+            bool hasDataType = false;
             String result = "";
-            foreach (String word in validKeyWords)
+            foreach (var type in dataTypes)
             {
-
-                if (article.Contains(word.Trim()) && word.Trim() != "" && word != null)
+                foreach (String word in type.keywords)
                 {
-                    if (!hasKeyword)
+                    DataType temp = new DataType(type.Name);
+                    if (article.Contains(word.Trim()) && word.Trim() != "" && word != null)
                     {
-                        result += i + ") Success File: " + fileName + " contains the keywords: ";
-                    }
+                        if (!hasKeyword) result += i + ") Success File: " + fileName + " contains the data types and keywords: ";
 
-                    result += word + ", ";
-                    MySqlCommand cmd = connection.CreateCommand();
-                    cmd.CommandText =
-                        @"INSERT INTO keywords(keyword, fileName) 
-                            SELECT ?keyword, ?fileName FROM dual
-                                WHERE NOT EXISTS(SELECT 1  FROM keywords
-                                    WHERE keyword = ?keyword
-                                    AND fileName = ?fileName)";
-                    cmd.Parameters.AddWithValue("?keyword", word);
-                    cmd.Parameters.AddWithValue("?fileName", fileName);
-                    cmd.ExecuteNonQuery();
-                    hasKeyword = true;
+                        if (!hasDataType)
+                        {
+                            paper.dataTypes.Add(temp);
+                            result += type.Name + ": ";
+                        }
+
+                        result += word + ", ";
+                        temp.keywords.Add(word);
+                        MySqlCommand cmd = connection.CreateCommand();
+                        cmd.CommandText =
+                            @"INSERT INTO keywords(keyword, fileName) 
+                                SELECT ?keyword, ?fileName FROM dual
+                                    WHERE NOT EXISTS(SELECT 1  FROM keywords
+                                        WHERE keyword = ?keyword
+                                        AND fileName = ?fileName)";
+                        cmd.Parameters.AddWithValue("?keyword", word);
+                        cmd.Parameters.AddWithValue("?fileName", fileName);
+                        cmd.ExecuteNonQuery();
+                        hasKeyword = true;
+                        hasDataType = true;
+                    }
                 }
+                hasDataType = false;
             }
 
             if(!hasKeyword)
@@ -207,9 +235,9 @@ namespace Processing.DataAnalysis
             {
                 start = article.IndexOf(tag);
                 content = article.Substring(start + tagLength + 11); //move foraward to the start of content
-                end = content.IndexOf("/");
-                content = content.Substring(0, end - 2);
-                Console.WriteLine(content);
+                end = content.IndexOf(">")  - 1;
+                content = content.Substring(0, end);
+                //Console.WriteLine(content);
                 paper.AddAttribute(attribute, content);
 
             }

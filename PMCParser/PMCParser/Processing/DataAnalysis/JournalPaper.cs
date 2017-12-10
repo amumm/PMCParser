@@ -5,9 +5,15 @@ namespace Processing.DataAnalysis
 {
     public class DataType
     {
-        private String Name;
+        public String Name { get; set; }
 
-        private List<String> keywords;
+        public List<String> keywords { get; set; }
+
+        public DataType(String Name)
+        {
+            this.Name = Name;
+            this.keywords = new List<String>();
+        }
     }
 
     public class JournalPaper
@@ -32,7 +38,7 @@ namespace Processing.DataAnalysis
 
         public JournalPaper()
         {
-
+            this.dataTypes = new List<DataType>();
         }
 
         public void AddAttribute(String attribute, String content)

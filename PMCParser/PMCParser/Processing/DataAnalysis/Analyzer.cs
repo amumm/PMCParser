@@ -3,17 +3,18 @@ using System.IO;
 using System.Collections;
 using Processing.Data;
 using MySql.Data.MySqlClient;
+using System.Collections.Generic;
 
 namespace Processing.DataAnalysis
 {
     class Analyzer
     {
-        public static void Control(Configuration config, DBConnection dbc)
+        public static ArrayList Control(Configuration config, DBConnection dbc)
         {
-            AnalyzeAllArticles(config, dbc);
+           return AnalyzeAllArticles(config, dbc);
         }
 
-        private static void AnalyzeAllArticles(Configuration config, DBConnection dbc)
+        private static ArrayList AnalyzeAllArticles(Configuration config, DBConnection dbc)
         {
             
             ArrayList papers = new ArrayList();
@@ -21,17 +22,33 @@ namespace Processing.DataAnalysis
             var articleDirectory = new DirectoryInfo(config.ArticleDirectory);
             var files = articleDirectory.GetFiles();
 
+            string query = @"SELECT PMC_Id FROM Article_Status
+                              WHERE To_Analyze = '1'";
+            var cmd = new MySqlCommand(query, dbc.Connection);
+            var idReader = cmd.ExecuteReader();
+
+            List<String> toAnalyze = new List<String>();
+
+            while (idReader.Read())
+            {
+                toAnalyze.Add(idReader.GetString(0));
+            }
+
+            idReader.Close();
+
             int i = 1;
 
             foreach (var file in files)
             {
-                
+                if (!toAnalyze.Contains(file.Name)) continue;
+
                 StreamReader reader = file.OpenText();
                 String stringFile = reader.ReadToEnd();
                 reader.Close();
 
                 JournalPaper paper = new JournalPaper();
                 papers.Add(paper);
+                paper.PMCID = file.Name;
 
                 ArticleParser parser = new ArticleParser(file, stringFile, dbc, paper);
 
@@ -41,7 +58,7 @@ namespace Processing.DataAnalysis
                     if (methodsAndResults != null && methodsAndResults != "" && methodsAndResults != " ")
                     {
                         parser.FindKeyWords(file.Name, methodsAndResults, i, dbc.Connection);
-                        //parser.FindHeaderInfo();
+                        parser.FindHeaderInfo();
 
                         MySqlCommand updateCommand = dbc.Connection.CreateCommand();
 
@@ -58,6 +75,8 @@ namespace Processing.DataAnalysis
             }
 
             Console.WriteLine("\n" + (i - 1));
+
+            return papers;
         }
     }
 }

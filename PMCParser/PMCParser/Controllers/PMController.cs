@@ -21,13 +21,14 @@ namespace PMCParser.Controllers
             if (dbc.IsConnected())
             {
                 Debug.WriteLine("Conncted Successfully");
-                Analyzer.Control(config, dbc);
+                var results = Analyzer.Control(config, dbc);
                 dbc.Close();
                 return false;
             }
 
             Debug.WriteLine("Connection Failed");
             return true;
+            //return results;
         }
 
         [HttpGet("[action]")]

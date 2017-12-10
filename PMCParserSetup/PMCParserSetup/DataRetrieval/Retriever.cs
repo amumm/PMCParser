@@ -13,7 +13,7 @@ namespace PMCParserSetup.DataRetrieval
                 Console.Write("\n1) Fetch IDs\n2) Download Articles by IDs\n3) Main Menu\nEnter a number:");
                 var input = Console.ReadLine();
                 if(input == "1"){
-                    IdManager.GetPmcIds(config.QueriesFilePath, config.IdOutputPath, config.ESearchScriptPath, config.BashPath);
+                    //IdManager.GetPmcIds(config.QueriesFilePath, config.IdOutputPath, config.ESearchScriptPath, config.BashPath);
                     HtmlDownloader.Add_IDs_To_Articles_Status(config.IdOutputPath, dbc);
                     HtmlDownloader.UpdateDbWithStoredArticles(dbc, config.ArticleDirectory);
                 }
