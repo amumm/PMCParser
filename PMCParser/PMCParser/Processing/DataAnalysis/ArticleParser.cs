@@ -54,7 +54,7 @@ namespace Processing.DataAnalysis
                 var keyWordReader = cmd.ExecuteReader();
                 while (keyWordReader.Read())
                 {
-                    temp.keywords.Add(keyWordReader.GetString(0));
+                    temp.Keywords.Add(keyWordReader.GetString(0));
                 }
                 keyWordReader.Close();
             }
@@ -188,21 +188,22 @@ namespace Processing.DataAnalysis
             String result = "";
             foreach (var type in dataTypes)
             {
-                foreach (String word in type.keywords)
+                DataType temp = new DataType(type.Name);
+                paper.DataTypes.Add(temp);
+
+                foreach (String word in type.Keywords)
                 {
-                    DataType temp = new DataType(type.Name);
                     if (article.Contains(word.Trim()) && word.Trim() != "" && word != null)
                     {
                         if (!hasKeyword) result += i + ") Success File: " + fileName + " contains the data types and keywords: ";
 
                         if (!hasDataType)
                         {
-                            paper.dataTypes.Add(temp);
                             result += type.Name + ": ";
                         }
 
                         result += word + ", ";
-                        temp.keywords.Add(word);
+                        temp.Keywords.Add(word);
                         MySqlCommand cmd = connection.CreateCommand();
                         cmd.CommandText =
                             @"INSERT INTO keywords(keyword, fileName) 

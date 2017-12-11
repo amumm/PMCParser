@@ -7,12 +7,12 @@ namespace Processing.DataAnalysis
     {
         public String Name { get; set; }
 
-        public List<String> keywords { get; set; }
+        public List<String> Keywords { get; set; }
 
         public DataType(String Name)
         {
             this.Name = Name;
-            this.keywords = new List<String>();
+            this.Keywords = new List<String>();
         }
     }
 
@@ -30,15 +30,15 @@ namespace Processing.DataAnalysis
 
         public string PMCID { get; set; }
 
-        public Array Authors;
+        public string[] Authors;
 
-        public Array CorrespondingAuthors;
+        public List<string> CorrespondingAuthors;
 
-        public List<DataType> dataTypes;
+        public List<DataType> DataTypes;
 
         public JournalPaper()
         {
-            this.dataTypes = new List<DataType>();
+            this.DataTypes = new List<DataType>();
         }
 
         public void AddAttribute(String attribute, String content)

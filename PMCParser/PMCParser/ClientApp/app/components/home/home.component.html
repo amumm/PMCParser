@@ -4,4 +4,35 @@
 
 <button [disabled]="this.exportToExcel" (click)="exportData()">Export Results</button>
 
-[this.results]
+<table class='table' *ngIf="results">
+    <thead>
+        <tr>
+            <th>Journal Title</th>
+            <th>Paper Title</th>
+            <th>Authors</th>
+            <th>Corresponding Authors</th>
+            <th>PMC ID</th>
+            <th>Date of Publication</th>
+            <th>Issue</th>
+            <th>Volume</th>
+            <th *ngFor="let dataType of results[0].dataTypes">{{dataType.name}}</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let result of results">
+            <td>{{ result.journalTitle }}</td>
+            <td>{{ result.paperTitle }}</td>
+            <td>
+                <p *ngFor="let author of result.authors">{{ author }}</p></td>
+            <td>
+                <p *ngFor="let correspondingAuthor of result.correspondingAuthors">{{ correspondingAuthor }}</p></td>
+            <td>{{ result.pmcid }}</td>
+            <td>{{ result.date }}</td>
+            <td>{{ result.issue }}</td>
+            <td>{{ result.volume }}</td>
+            <td *ngFor="let dataType of result.dataTypes">
+                <p *ngFor="let keyword of dataType.keywords">{{keyword}}</p></td>
+        </tr>
+    </tbody>
+</table>

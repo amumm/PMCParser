@@ -13,19 +13,18 @@ export class HomeComponent {
 
     public exportToExcel: boolean;
 
-    public results: Array<JournalPaper>;
+    public results: JournalPaper[];
 
     constructor(http: Http, @Inject('BASE_URL') baseUrl: string) {
         this.http = http;
         this.baseUrl = baseUrl;
         this.exportToExcel = true;
-        
     }
 
     analyzeArticles() {
         this.exportToExcel = true;
         this.http.get(this.baseUrl + 'api/PM/AnalyzeArticles').subscribe(result => {
-            this.results = result.json() as Array<JournalPaper>;
+            this.results = result.json() as JournalPaper[];
         }, error => console.error(error));
     }
 
@@ -39,39 +38,19 @@ export class HomeComponent {
 
 }
 
-export class DataType {
-
-        Name: string;
-
-        keywords: Array<String>;
-
-        constructor(Name: string){
-            this.Name = Name;
-        }
+interface JournalPaper {
+    journalTitle: string;
+    paperTitle: string;
+    issue: string;
+    volume: string;
+    date: string;
+    pmcid: string;
+    authors: string[];
+    correspondingAuthors: string[];
+    dataTypes: DataType[];
 }
 
-export class JournalPaper {
-
-    JournalTitle: string;
-
-    PaperTitle: string;
-
-    Issue: string;
-
-    Volume: string;
-
-    Date: string;
-
-    PMCID: string;
-
-    Authors: Array<String>;
-
-    CorrespondingAuthors: Array<String>;
-
-    dataTypes: Array<DataType>;
-
-    public JournalPaper() {
-
-    }
+interface DataType {
+        name: string;
+        keywords: string[];
 }
-

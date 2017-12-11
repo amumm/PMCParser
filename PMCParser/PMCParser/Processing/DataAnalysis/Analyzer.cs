@@ -9,15 +9,16 @@ namespace Processing.DataAnalysis
 {
     class Analyzer
     {
-        public static ArrayList Control(Configuration config, DBConnection dbc)
+        public static List<JournalPaper> Control(Configuration config, DBConnection dbc)
         {
-           return AnalyzeAllArticles(config, dbc);
+            List<JournalPaper> result = AnalyzeAllArticles(config, dbc);
+            return result;
         }
 
-        private static ArrayList AnalyzeAllArticles(Configuration config, DBConnection dbc)
+        private static List<JournalPaper> AnalyzeAllArticles(Configuration config, DBConnection dbc)
         {
             
-            ArrayList papers = new ArrayList();
+            List<JournalPaper> papers = new List<JournalPaper>();
 
             var articleDirectory = new DirectoryInfo(config.ArticleDirectory);
             var files = articleDirectory.GetFiles();
